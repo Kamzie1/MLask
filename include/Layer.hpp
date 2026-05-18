@@ -1,6 +1,7 @@
 #pragma once
 #include <Eigen/Core>
 #include <Eigen/Dense>
+#include <ostream>
 #include "types.hpp"
 
 namespace mlask {
@@ -12,8 +13,9 @@ class Layer {
 
   public:
     virtual ~Layer() = default;
-    virtual vectorOut_ forward(vectorIn_) const = 0;
-    virtual vectorOut_ backward(vectorIn_) = 0;
-    virtual void fit() = 0;
+    virtual vectorOut_ forward(vectorIn_) = 0;
+    virtual vectorIn_ backward(vectorOut_) = 0;
+    virtual void fit(float_t learning_rate) = 0;
+    virtual std::ostream& print(std::ostream& os)const{return os;}
 };
 } // namespace mlask
