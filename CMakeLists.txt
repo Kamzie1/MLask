@@ -15,7 +15,11 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(test src/test.cpp)
-target_compile_features(test PRIVATE cxx_std_23)
-target_link_libraries(test PUBLIC Eigen3::Eigen)
+add_library(mlask STATIC 
+    src/Model.cpp
+)
+target_compile_features(mlask PRIVATE cxx_std_23)
+target_link_libraries(mlask PUBLIC Eigen3::Eigen)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
+add_subdirectory(tests)
