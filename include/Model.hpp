@@ -29,6 +29,7 @@ class Model {
     std::vector<std::unique_ptr<Layer>> layers_;
     std::size_t epochs_;
     bool log_;
+    std::size_t epoch_ = 0;
 
   public:
     Model() = default;
