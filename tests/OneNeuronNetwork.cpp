@@ -12,6 +12,7 @@ float w = 0.3;
 float b = 0;
 
 #define SIZE 100
+#define EPOCHS 10000
 
 vectorOut_ err(vectorOut_ result, vectorOut_ expected){
     return result - expected;
@@ -20,7 +21,7 @@ vectorOut_ err(vectorOut_ result, vectorOut_ expected){
 int main(){
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(-0.5,0.5);
-    Model model;
+    Model model(EPOCHS, log=true);
     model.addFullyConnectedLayer<1, 1>();
 
     std::vector<float> Y;
@@ -30,7 +31,7 @@ int main(){
     }
 
     float_t learning_rate = 0.001;
-    for(std::size_t epochs=0; epochs < 100000; epochs++){
+    for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
         for(int x = 0;x<=SIZE;x++){
             Eigen::Matrix<float_t, 1, 1> input;
             input << (x-(SIZE/2.f))/(SIZE/2.f);

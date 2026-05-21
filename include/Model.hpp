@@ -27,10 +27,14 @@ namespace mlask {
 class Model {
   private:
     std::vector<std::unique_ptr<Layer>> layers_;
+    std::size_t epochs_;
+    bool log_;
 
   public:
     Model() = default;
     Model(std::size_t size);
+    Model(std::size_t epochs, bool log=true);
+    Model(std::size_t size, std::size_t epochs, bool log=true);
 
     // adds a layer to a model
     void addLayer(std::unique_ptr<Layer> layer);

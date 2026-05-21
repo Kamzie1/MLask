@@ -11,6 +11,9 @@
 
 namespace mlask {
 Model::Model(std::size_t size): layers_(size) {}
+Model::Model(std::size_t epochs, bool log): epochs_(epochs), log_(log) {}
+Model::Model(std::size_t epochs, bool log): epochs_(epochs), log_(log) {}
+
 void Model::addLayer(std::unique_ptr<Layer> layer) {
     layers_.push_back(std::move(layer));
     LOG("Added Layer");
@@ -40,23 +43,23 @@ void Model::fit(float_t learning_rate){
 
 
 void Model::addActivationFunctionWithLambdas( actfunc func, actfunc derv){
-//    layers_.push_back(std::make_unique<ActivationFunction>(func, derv));
+    layers_.push_back(std::make_unique<ActivationFunction>(func, derv));
+    LOG("Added Activation Function");
 }
 
 void Model::addActivationFunction(InternalActivationFunction activationFunction){
     switch(activationFunction){
-        #define REGISTER(X) std::cout<<##X<<std::endl;
-            LIST_OF_ACTIVATION_FUNCTIONS
-        #undef REGISTER
         #define REGISTER(X)\
             case InternalActivationFunction::X:\
-                layer_.push_back(std::make_unique<X>());\
-                LOG("Added Activation Function " + ##X);\
+            {\
+                layers_.push_back(std::make_unique<X>());\
+                std::cout<<"[INFO] Added "<< #X<<std::endl;\
                 break;\
+            }
             LIST_OF_ACTIVATION_FUNCTIONS
         #undef REGISTER
         default:
-//            throw std::invalid_argument("There is no such layer");
+            throw std::invalid_argument("There is no such layer");
     }
 }
 } // namespace mlask

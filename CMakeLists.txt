@@ -17,6 +17,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_library(mlask STATIC 
     src/Model.cpp
+    src/Relu.cpp
+    src/ActivationFunction.cpp
 )
 target_compile_features(mlask PRIVATE cxx_std_23)
 target_link_libraries(mlask PUBLIC Eigen3::Eigen)
