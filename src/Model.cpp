@@ -8,11 +8,12 @@
 #include "InternalActivationFunction.hpp"
 #include "Layer.hpp"
 #include "Relu.hpp"
+#include "ProgressBar.hpp"
 
 namespace mlask {
-Model::Model(std::size_t size): layers_(size) {}
-Model::Model(std::size_t epochs, bool log): epochs_(epochs), log_(log) {}
-Model::Model(std::size_t epochs, bool log): epochs_(epochs), log_(log) {}
+Model::Model(std::size_t size): layers_(size), log_(false) {}
+Model::Model(std::size_t epochs, bool log): epochs_(epochs), log_(log){}
+Model::Model(std::size_t size, std::size_t epochs, bool log): layers_(size), epochs_(epochs), log_(log) {}
 
 void Model::addLayer(std::unique_ptr<Layer> layer) {
     layers_.push_back(std::move(layer));
@@ -36,8 +37,12 @@ void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
     }
 }
 void Model::fit(float_t learning_rate){
+    epoch_++;
     for (const std::unique_ptr<Layer> &layer : layers_) {
         layer->fit(learning_rate);
+    }
+    if(log_){
+        ProgressBar::draw((float)epoch_ / (float)epochs_);
     }
 }
 

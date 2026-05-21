@@ -21,7 +21,7 @@ vectorOut_ err(vectorOut_ result, vectorOut_ expected){
 int main(){
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(-0.5,0.5);
-    Model model(EPOCHS, log=true);
+    Model model(EPOCHS, true);
     model.addFullyConnectedLayer<1, 1>();
 
     std::vector<float> Y;
