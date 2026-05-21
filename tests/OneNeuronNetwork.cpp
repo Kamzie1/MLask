@@ -1,4 +1,5 @@
 #include "FullyConnectedLayer.hpp"
+#include "Layer.hpp"
 #include "Model.hpp"
 #include <Eigen/Core>
 #include <cstdlib>
@@ -12,7 +13,7 @@ float b = 0;
 
 #define SIZE 100
 
-Eigen::Matrix<float_t, Eigen::Dynamic, 1> err(Eigen::Matrix<float_t, Eigen::Dynamic, 1> expected, Eigen::Matrix<float_t, Eigen::Dynamic, 1> result){
+vectorOut_ err(vectorOut_ result, vectorOut_ expected){
     return result - expected;
 }
 
@@ -20,7 +21,7 @@ int main(){
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(-0.5,0.5);
     Model model;
-    model.addLayer(std::make_unique<FullyConnectedLayer<1,1>>());
+    model.addFullyConnectedLayer<1, 1>();
 
     std::vector<float> Y;
     Y.resize(SIZE + 1);

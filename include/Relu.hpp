@@ -3,8 +3,9 @@
 #include <Eigen/Core>
 
 namespace mlask{
+// Layer representing Relu activation function
 class Relu : public Layer{
-    Eigen::Matrix<float_t, Eigen::Dynamic, 1> input_;
+    vectorIn_ input_;
 public:
     vectorOut_ forward(vectorIn_ input) override;
     vectorIn_ backward(vectorOut_ error) override;

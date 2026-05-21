@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 
+using namespace mlask;
 class TestLayer : public mlask::Layer {
   public:
     vectorOut_ forward(vectorIn_ input) override { return input; }
