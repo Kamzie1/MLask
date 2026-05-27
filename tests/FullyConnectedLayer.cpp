@@ -41,7 +41,7 @@ void test_forward(){
 
 void test_with_model(){
     std::cout<<"----Test Model with Fully Connected Layer----\n";
-    mlask::Model model;
+    mlask::Model model(1, 2);
 
     FullyConnectedLayer<1,1> layer;
     model.addLayer(std::make_unique<FullyConnectedLayer<1,1>>(layer));

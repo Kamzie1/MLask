@@ -1,0 +1,17 @@
+:ด
+
+X
+X_weightX_result"MatMul
+
+X_result
+X_biasY"AddMLask Model*BX_weightJรงC*BX_biasJไ๛CZ
+X
+
+
+batch_size
+b
+Y
+
+
+batch_size
+B
