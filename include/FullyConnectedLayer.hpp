@@ -3,6 +3,7 @@
 #include "Eigen/Dense"
 #include <Eigen/Core>
 #include <cstddef>
+#include <iterator>
 #include <ostream>
 
 namespace mlask{
@@ -38,7 +39,10 @@ public:
     void fit(float_t learning_rate) override;
 
     ///@brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
-    bool tryConvertToONNX(onnx::GraphProto* graph)const override;
+    ///@param graph A pointer to the ONNX graph to which the layer should be added
+    /// @param input The name of the input tensor for this layer in the ONNX graph
+    /// @param output The name of the output tensor for this layer in the ONNX graph
+    bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
     //getters
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
@@ -73,9 +77,9 @@ void FullyConnectedLayer<in, out>::fit(float_t learning_rate){
 }
 
 template <std::size_t in, std::size_t out>
-bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph)const{
+bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output)const{
     onnx::TensorProto* w = graph->add_initializer();
-    w->set_name("Weight");
+    w->set_name(input + "_weight");
     w->set_data_type(onnx::TensorProto::FLOAT);
     w->add_dims(in);
     w->add_dims(out);
@@ -84,24 +88,22 @@ bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph)cons
     w->set_raw_data(onnxWeights.data(), onnxWeights.size() * sizeof(float_t));
 
     onnx::TensorProto* b = graph->add_initializer();
-    b->set_name("Bias");
+    b->set_name(input + "_bias");
     b->set_data_type(onnx::TensorProto::FLOAT);
     b->add_dims(out);
     b->set_raw_data(bias_.data(), bias_.size() * sizeof(float_t));
 
     onnx::NodeProto* matmul_node = graph->add_node();
     matmul_node->set_op_type("MatMul");
-    matmul_node->set_name("Multiply_X_and_W");
-    matmul_node->add_input("X");
-    matmul_node->add_input("Weight");
-    matmul_node->add_output("matmul_result");
+    matmul_node->add_input(input);
+    matmul_node->add_input(input + "_weight");
+    matmul_node->add_output(input + "_result");
 
     onnx::NodeProto* add_node = graph->add_node();
     add_node->set_op_type("Add");
-    add_node->set_name("Add_Bias");
-    add_node->add_input("matmul_result");
-    add_node->add_input("Bias");
-    add_node->add_output("Y");
+    add_node->add_input(input + "_result");
+    add_node->add_input(input + "_bias");
+    add_node->add_output(output);
     return true;
 }
 

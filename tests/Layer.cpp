@@ -29,7 +29,7 @@ class AddingLayer : public mlask::Layer {
 
 void test_test_layer(){
     std::cout<<"----Test Layer----\n";
-    mlask::Model model;
+    mlask::Model model(4, 1);
 
     model.addLayer(std::make_unique<AddingLayer>(1));
     model.addLayer(std::make_unique<AddingLayer>(2));
@@ -46,7 +46,7 @@ void test_test_layer(){
 
 void test_multi_layer(){
     std::cout<<"----Multi Layer----\n";
-    mlask::Model model;
+    mlask::Model model(1, 1);
 
     model.addLayer(std::make_unique<AddingLayer>(1));
     model.addLayer(std::make_unique<AddingLayer>(2));
@@ -61,7 +61,7 @@ void test_multi_layer(){
 }
 void test_addition_layer(){
     std::cout<<"----Addition Layer----\n";
-    mlask::Model model;
+    mlask::Model model(1, 1);
 
     model.addLayer(std::make_unique<TestLayer>());
     model.addLayer(std::make_unique<TestLayer>());

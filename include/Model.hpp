@@ -82,19 +82,21 @@ class Model {
 
     ///@brief exports the model to a file in ONNX format
     /// @param path The path to the file where the model will be saved
-    void exportToONNX(std::filesystem::path path) const;
+    /// @param name The name of the model to be used in the ONNX file (optional, default is "MLask Model")
+    void exportToONNX(std::filesystem::path path, std::string name = "MLask Model") const;
 
 private:
     ///@brief converts the model to ONNX format
     /// @param model The ONNX model to convert to
+    /// @param name The name of the model to be used in the ONNX file
     /// @return true if the conversion was successful, false otherwise
-    bool tryConvertToONNX(onnx::ModelProto& model)const;
+    bool tryConvertToONNX(onnx::ModelProto& model, std::string name)const;
     ///@brief gets the output size of the last layer in the model. For validation purposes.
     inline std::size_t lastOut()const{
-        if(layers_.size() == 0){
+        if(layers_.empty()){
             return in_;
         }
-        return layers_[layers_.size()-1]->getOut();
+        return layers_.back()->getOut();
     }
 };
 

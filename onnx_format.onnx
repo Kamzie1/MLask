@@ -1,10 +1,10 @@
-:ๆ
-4
+:ด
+
 X
-Weightmatmul_resultMultiply_X_and_W"MatMul
-'
-matmul_result
-BiasYAdd_Bias"AddSingle_Neuron_Linear_Regression*BWeightJ๋ะดD*BBiasJ~ปDZ
+X_weightX_result"MatMul
+
+X_result
+X_biasY"AddMLask Model*BX_weightJรงC*BX_biasJไ๛CZ
 X
 
 

@@ -24,7 +24,7 @@ protected:
     ///@brief Describes how the layer 'learns', meaning it defines how layer updates itself.
     virtual void fit(float_t learning_rate) = 0;
     ///@brief Converts the layer to ONNX format. If the layer cannot be converted, it should return false.
-    virtual bool tryConvertToONNX(onnx::GraphProto* graph)const { return false; }
+    virtual bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output)const { return false; }
     virtual std::ostream& print(std::ostream& os)const{return os;}
 };
 } // namespace mlask

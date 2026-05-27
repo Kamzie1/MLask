@@ -3,8 +3,7 @@
 #include <Eigen/Core>
 
 namespace mlask{
-///@brief:w
-/// Layer representing Relu activation function
+///@brief Layer representing Relu activation function
 class Relu : public Layer{
     vectorIn_ input_;
 public:
@@ -12,5 +11,6 @@ public:
     vectorOut_ forward(vectorIn_ input) override;
     vectorIn_ backward(vectorOut_ error) override;
     void fit(float_t learning_rate) override {}
+    bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 };
 }
