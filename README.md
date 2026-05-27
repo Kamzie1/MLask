@@ -8,7 +8,7 @@
     <a href="https://kamzie1.github.io/MLask"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Kamzie1/MLask/tests/OneNeuronNetwork.cpp">View Demo</a>
+    <a href="https://github.com/Kamzie1/MLask/blob/main/tests/OneNeuronNetwork.cpp">View Demo</a>
     &middot;
     <a href="https://github.com/Kamzie1/MLask/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
 >
