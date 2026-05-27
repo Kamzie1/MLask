@@ -49,13 +49,15 @@ class Model {
     /**
      * @brief Adds a layer to the model(Layer is an abstract class, see Layer.hpp for more details)
      * @param layer The layer to add
+     * @throws std::runtime_error if the input size of the layer does not match the output size of the previous layer
      */
     void addLayer(std::unique_ptr<Layer> layer);
 
     /**
      * @brief creates and adds fullyConnectedLayer with given in and out neurons
-     * @param in number of input neurons
-     * @param out number of output neurons
+     * @tparam in number of input neurons
+     * @tparam out number of output neurons
+     * @throws std::invalid_argument if the input size of the layer does not match the output size of the previous layer
      */
     template<std::size_t in, std::size_t out>
     void addFullyConnectedLayer();
@@ -68,6 +70,7 @@ class Model {
     /**
      * @brief creates and adds ActivationFunction layer of type activationFunction
      * @param activationFunction The type of activation function to add
+     * @throws std::invalid_argument if the activation function type is not supported. See InternalActivationFunction.hpp for more details
      */
     void addActivationFunction(InternalActivationFunction activationFunction);
 
@@ -97,6 +100,9 @@ class Model {
      */
     const Layer* getLayer(std::size_t index)const{ return layers_[index].get(); }
     const Layer* operator[](std::size_t index)const { return getLayer(index); }
+
+    /** @brief Returns a string representation of the model */
+    std::string cstr()const;
 
     /**
      * @brief exports the model to a file in ONNX format

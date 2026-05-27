@@ -20,7 +20,7 @@
 
 namespace mlask {
 Model::Model(std::size_t in, std::size_t out, std::size_t size, std::size_t epochs, bool log):
-    in_(in), out_(out), epochs_(epochs), log_(log) {layers_.reserve(size);} 
+    in_(in), out_(out), epochs_(epochs), log_(log) {layers_.reserve(size);}
 
 void Model::addLayer(std::unique_ptr<Layer> layer) {
     std::size_t out = lastOut();
@@ -131,7 +131,7 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
 void Model::exportToONNX(std::filesystem::path path, std::string name)const{
     onnx::ModelProto model;
     if(!tryConvertToONNX(model, name)){
-        ERR("Failed to write ONNX file to disk");
+        ERR("Failed to convert model to ONNX");
         return;
     }
     std::fstream output(path, std::ios::out | std::ios::trunc | std::ios::binary);
@@ -139,5 +139,14 @@ void Model::exportToONNX(std::filesystem::path path, std::string name)const{
         ERR("Failed to write ONNX file to disk");
     }
     LOG("Succesfully written ONNX file to disk");
+}
+
+std::string Model::cstr()const{
+    std::string model_cstr;
+    for (const std::unique_ptr<Layer> &layer : layers_) {
+        model_cstr = model_cstr +  "\n|\n" + "V\n";
+        model_cstr += layer->cstr();
+    }
+    return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
 }
 } // namespace mlask

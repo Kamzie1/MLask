@@ -41,6 +41,6 @@ int main(){
         }
         model.fit(learning_rate);
     }
-    model[0]->print(std::cout) << std::endl;
+    std::cout<<model.cstr();
     model.exportToONNX("onnx_format.onnx");
 }

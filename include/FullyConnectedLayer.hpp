@@ -12,6 +12,8 @@ namespace mlask{
  * @brief Class representing fully connected layer.
  * @brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
  * @brief where all the neurons are connected with each other.
+ * @tparam in The number of neurons in the input
+ * @tparam out The number of neurons in the output
  */
 template<std::size_t in, std::size_t out>
 class FullyConnectedLayer : public Layer{
@@ -24,6 +26,7 @@ private:
     Eigen::Matrix<float_t, out, 1> biasChange_;
     std::size_t epochs_;
 public:
+    /// @brief A constructor for fully connected layer, initializes weights and biases with random values, and changes with zeros
     FullyConnectedLayer(){
         weights_.setRandom();
         bias_.setRandom();
@@ -48,13 +51,14 @@ public:
      */
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
+    /* @brief Returns a string representation of the layer */
+    std::string cstr() const override{
+        return "FullyConnectedLayer: " + std::to_string(in) + " -> " + std::to_string(out);
+    }
+
     /* getters */
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
     Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
-
-    /* print */
-    std::ostream& print(std::ostream& os)const override{return os<<weights_<<std::endl<<bias_<<std::endl;}
-    friend std::ostream& operator<<(std::ostream& os, const FullyConnectedLayer& fullyConnectedLayer){ return fullyConnectedLayer.print(os); }
 };
 
 template <std::size_t in, std::size_t out>

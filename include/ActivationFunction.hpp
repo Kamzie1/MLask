@@ -22,8 +22,17 @@ public:
      * @param in size of the input, in=0 means the input is not restricted to certain size
      */
     ActivationFunction(actfunc func, actfunc derv, std::size_t in = 0):func_(func), derv_(derv) {in_ = in; out_ = in;}
+    /** @brief Performs forward propagation
+     * @param input the input vector
+     * @return the output vector
+     */
     vectorOut_ forward(vectorIn_ input) override;
+    /** @brief Performs backward propagation
+     * @param error the error vector
+     * @return the gradient vector
+     */
     vectorIn_ backward(vectorOut_ error) override;
+    /** @brief No parameters to fit in an activation function, so this method does nothing */
     void fit(float_t learning_rate) override {}
 };
 }
