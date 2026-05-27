@@ -1,5 +1,0 @@
-<map id="mlask::Relu" name="mlask::Relu">
-<area shape="rect" id="Node000001" title="Layer representing Relu activation function." alt="" coords="9,79,108,104"/>
-<area shape="rect" id="Node000002" href="$classmlask_1_1Layer.html" title="Base class for all layers in the neural network." alt="" coords="5,5,112,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,44,61,79,56,79,56,44"/>
-</map>
