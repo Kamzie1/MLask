@@ -41,6 +41,10 @@ vectorOut_ Model::forward(vectorIn_ input) const {
     return input;
 }
 
+// void backprop(std::vector<float_t> input, std::vector<float_t>expected, err_function err){
+//     backprop(Eigen::Map<vectorIn_>(input.data(), input.size()), Eigen::Map<vectorOut_>(expected.data(), expected.size(), 1), err);
+// }
+
 void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
     for (const std::unique_ptr<Layer> &layer : layers_) {
         input = layer->forward(input);
@@ -50,6 +54,7 @@ void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
         error = (*it).get()->backward(error);
     }
 }
+
 void Model::fit(float_t learning_rate){
     epoch_++;
     for (const std::unique_ptr<Layer> &layer : layers_) {
@@ -110,7 +115,7 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
         index++;
     }
 
-    // input X
+    /* input X */
     onnx::ValueInfoProto* input_x = graph->add_input();
     input_x->set_name(INPUT);
     onnx::TypeProto_Tensor* x_tensor_type = input_x->mutable_type()->mutable_tensor_type();
@@ -118,7 +123,7 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
     x_tensor_type->mutable_shape()->add_dim()->set_dim_param("batch_size");
     x_tensor_type->mutable_shape()->add_dim()->set_dim_value(in_);
 
-    // Output Y
+    /* Output Y */
     onnx::ValueInfoProto* output_y = graph->add_output();
     output_y->set_name(OUTPUT);
     onnx::TypeProto_Tensor* y_tensor_type = output_y->mutable_type()->mutable_tensor_type();
@@ -131,7 +136,7 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
 void Model::exportToONNX(std::filesystem::path path, std::string name)const{
     onnx::ModelProto model;
     if(!tryConvertToONNX(model, name)){
-        ERR("Failed to write ONNX file to disk");
+        ERR("Failed to convert model to ONNX");
         return;
     }
     std::fstream output(path, std::ios::out | std::ios::trunc | std::ios::binary);
@@ -139,5 +144,14 @@ void Model::exportToONNX(std::filesystem::path path, std::string name)const{
         ERR("Failed to write ONNX file to disk");
     }
     LOG("Succesfully written ONNX file to disk");
+}
+
+std::string Model::str()const{
+    std::string model_cstr;
+    for (const std::unique_ptr<Layer> &layer : layers_) {
+        model_cstr = model_cstr +  "\n|\n" + "V\n";
+        model_cstr += layer->str();
+    }
+    return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
 }
 } // namespace mlask

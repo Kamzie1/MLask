@@ -1,9 +1,7 @@
-#include "FullyConnectedLayer.hpp"
 #include "Layer.hpp"
 #include "Model.hpp"
 #include <Eigen/Core>
 #include <cstdlib>
-#include <memory>
 #include <random>
 #include <iostream>
 using namespace mlask;
@@ -33,14 +31,10 @@ int main(){
     float_t learning_rate = 0.001;
     for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
         for(int x = 0;x<=SIZE;x++){
-            Eigen::Matrix<float_t, 1, 1> input;
-            input << (x-(SIZE/2.f))/(SIZE/2.f);
-            Eigen::Matrix<float_t, 1, 1> expected;
-            expected << Y[x];
-            model.backprop(input, expected, err);
+            model.backprop(vectorIn_{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut_{{Y[x]}}, err);
         }
         model.fit(learning_rate);
     }
-    model[0]->print(std::cout) << std::endl;
-    model.exportToONNX("onnx_format.onnx");
+    std::cout<<model.str();
+    model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
 }

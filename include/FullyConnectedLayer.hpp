@@ -3,14 +3,16 @@
 #include "Eigen/Dense"
 #include <Eigen/Core>
 #include <cstddef>
-#include <iterator>
-#include <ostream>
-
+#include <iomanip>
 namespace mlask{
 
-///@brief Class representing fully connected layer.
-///@brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
-///@brief where all the neurons are connected with each other.
+/**
+ * @brief Class representing fully connected layer.
+ * @brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
+ * @brief where all the neurons are connected with each other.
+ * @tparam in The number of neurons in the input
+ * @tparam out The number of neurons in the output
+ */
 template<std::size_t in, std::size_t out>
 class FullyConnectedLayer : public Layer{
 private:
@@ -22,6 +24,7 @@ private:
     Eigen::Matrix<float_t, out, 1> biasChange_;
     std::size_t epochs_;
 public:
+    /// @brief A constructor for fully connected layer, initializes weights and biases with random values, and changes with zeros
     FullyConnectedLayer(){
         weights_.setRandom();
         bias_.setRandom();
@@ -31,26 +34,26 @@ public:
         in_ = in;
         out_ = out;
     }
-    ///@brief A function defining moving foraward in neural network
+    /** @brief A function defining moving foraward in neural network */
     vectorOut_ forward(vectorIn_ input) override;
-    ///@brief A backtrack for backpropagation algorithm
+    /** @brief A backtrack for backpropagation algorithm */
     vectorIn_ backward(vectorOut_ error) override;
-    ///@brief A function that updates weights and biases
+    /** @brief A function that updates weights and biases */
     void fit(float_t learning_rate) override;
 
-    ///@brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
-    ///@param graph A pointer to the ONNX graph to which the layer should be added
-    /// @param input The name of the input tensor for this layer in the ONNX graph
-    /// @param output The name of the output tensor for this layer in the ONNX graph
+    /**
+     * @brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
+     * @param graph A pointer to the ONNX graph to which the layer should be added
+     * @param input The name of the input tensor for this layer in the ONNX graph
+     * @param output The name of the output tensor for this layer in the ONNX graph
+     */
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
-    //getters
+    /* @brief Returns a string representation of the layer */
+    std::string str() const override;
+    /* getters */
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
     Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
-
-    //print
-    std::ostream& print(std::ostream& os)const override{return os<<weights_<<std::endl<<bias_<<std::endl;}
-    friend std::ostream& operator<<(std::ostream& os, const FullyConnectedLayer& fullyConnectedLayer){ return fullyConnectedLayer.print(os); }
 };
 
 template <std::size_t in, std::size_t out>
@@ -107,4 +110,12 @@ bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph, std
     return true;
 }
 
+template<std::size_t in, std::size_t out>
+std::string FullyConnectedLayer<in, out>::str() const{
+    std::stringstream weights_stream;
+    weights_stream << std::fixed << std::setprecision(3) << weights_;
+    std::stringstream bias_stream;
+    bias_stream << std::fixed << std::setprecision(3) << bias_;
+    return "FullyConnectedLayer: " + std::to_string(in) + " -> " + std::to_string(out) + "\nWeights:\n" + weights_stream.str() + "\nBias:\n" + bias_stream.str();
+}
 }
