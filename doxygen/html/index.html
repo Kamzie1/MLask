@@ -79,7 +79,10 @@ $(function() {
 <p>A custom c++ deep learning library. <br  />
  <a href="https://github.com/Kamzie1/MLask"><b>Explore the docs »</b></a> <br  />
  <br  />
- <a href="https://github.com/Kamzie1/MLask/tests/OneNeuronNetwork.cpp">View Demo</a> &middot; <a href="https://github.com/Kamzie1/MLask/issues/new?labels=bug&amp;template=bug-report---.md">Report Bug</a> &middot; <a href="https://github.com/Kamzie1/MLask/issues/new?labels=enhancement&amp;template=feature-request---.md">Request Feature</a> </p>
+ <a href="https://github.com/Kamzie1/MLask/tests/OneNeuronNetwork.cpp">View Demo</a> &middot; <a href="https://github.com/Kamzie1/MLask/issues/new?labels=bug&amp;template=bug-report---.md">Report Bug</a> </p><blockquote class="doxtable">
+<p>&zwj; </p>
+<p></p>
+</blockquote>
 <details >
 <summary >
 Table of Contents</summary>
@@ -95,11 +98,25 @@ Table of Contents</summary>
 <li>
 <a href="#getting-started">Getting Started</a> <ul>
 <li>
+<a href="#prerequisites">Prerequisites</a> </li>
+<li>
 <a href="#installation">Installation</a> </li>
 </ul>
 </li>
 <li>
-<a href="#usage">Usage</a> </li>
+<a href="#usage">Usage</a> <ul>
+<li>
+<a href="#defining-a-model">Defining a model</a> <ul>
+<li>
+<a href="#adding-your-own-layer">Adding your own layer</a> </li>
+</ul>
+</li>
+<li>
+<a href="#training-the-model">Training the model</a> </li>
+<li>
+<a href="#exporting-the-model">Exporting the model</a> </li>
+</ul>
+</li>
 <li>
 <a href="#license">License</a> </li>
 </ul>
@@ -121,14 +138,21 @@ Features</h3>
 <h3><a class="anchor" id="autotoc_md2"></a>
 Built With</h3>
 <ul>
-<li>[![CMake][<a href="https://cmake.org">https://cmake.org</a>]][cmake-url]</li>
-<li>[![ONNX]<a href="https://raw.githubusercontent.com/onnx/onnx/main/docs/onnx-horizontal-color.png">https://github.com/onnx/onnx</a>]</li>
-<li>[![Protobuf][<a href="https://github.com/protocolbuffers/protobuf">https://github.com/protocolbuffers/protobuf</a>][protobuf-url]]</li>
+<li><a href="https://cmake.org]">CMake</a></li>
+<li><a href="https://gitlab.com/libeigen/eigen">Eigen</a></li>
+<li><a href="https://github.com/onnx/onnx">ONNX</a></li>
+<li><a href="https://github.com/protocolbuffers/protobuf">Protobuf</a></li>
 </ul>
 <p>(<a href="#readme-top">back to top</a>)</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Getting Started</h2>
 <h3><a class="anchor" id="autotoc_md4"></a>
+Prerequisites</h3>
+<ul>
+<li>CMake 3.28 or higher</li>
+<li>c++23 compatible compiler</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md5"></a>
 Installation</h3>
 <div class="fragment"><div class="line">include(FetchContent)</div>
 <div class="line">FetchContent_Declare(MLask</div>
@@ -139,12 +163,44 @@ Installation</h3>
 <div class="line">    SYSTEM)</div>
 <div class="line">FetchContent_MakeAvailable(MLask)</div>
 </div><!-- fragment --> <p>(<a href="#readme-top">back to top</a>)</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
-Usage</h2>
-<p>Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.</p>
-<p><em>For more examples, please refer to the <a href="https://example.com">Documentation</a></em></p>
-<p>(<a href="#readme-top">back to top</a>)</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
+Usage</h2>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Defining a model</h3>
+<p>You need to create a model with in, out, parameters. Optionally you can add number of layers, and whether to draw progress bar while learning. Then you add layers. </p><div class="fragment"><div class="line">Model model(1, 1, 1,); <span class="comment">// input of size 1, output of size 1, 1 layer</span></div>
+<div class="line"><span class="comment">// You can add specific mlask layers</span></div>
+<div class="line">model.addFullyConnectedLayer&lt;1, 1&gt;(); <span class="comment">// Correct output-&gt;input flow is validated</span></div>
+<div class="line">model.addActivationFunction(InternalActivationFunction::Relu); <span class="comment">//Only builtin activation functions listed in InternalActivationFunctioon enum</span></div>
+<div class="line">model.addActivationFunctionWithLambdas([](float_t x){ <span class="keywordflow">return</span> 0.5*x*x; }, [](float_t x){ <span class="keywordflow">return</span> x; } ); <span class="comment">// A layer that should be used only for prototyping.</span></div>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md8"></a>
+Adding your own layer</h4>
+<p>You can define and add your own layer. All you need to do is create a class that derives from abstract Layer class.</p>
+<div class="fragment"><div class="line"><span class="keyword">class </span>CustomLayer : <span class="keyword">public</span> Layer{</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="comment">// You need to override these functions. However if you want your layer to be exportable to ONNX for example, you also need to override tryConvertToONNX.</span></div>
+<div class="line">    vectorOut_ forward(vectorIn_ input) <span class="keyword">override</span>;</div>
+<div class="line">    vectorIn_ backward(vectorOut_ error) <span class="keyword">override</span>;</div>
+<div class="line">    <span class="keywordtype">void</span> fit(float_t learning_rate)<span class="keyword"> override </span>{}</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line">model.addLayer(std::make_unique&lt;CustomLayer&gt;()); <span class="comment">// You can add your custom layer to the model like this.</span></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md9"></a>
+Training the model</h3>
+<div class="fragment"><div class="line">float_t learning_rate = 0.001;</div>
+<div class="line"><span class="keywordflow">for</span>(std::size_t epochs=0; epochs &lt; EPOCHS; epochs++){</div>
+<div class="line">  <span class="keywordflow">for</span>(<span class="keywordtype">int</span> x = 0;x&lt;=SIZE;x++){</div>
+<div class="line">    model.backprop(vectorIn_{{(x-(SIZE/2.f))/(SIZE/2.f)}}, <a class="code hl_typedef" href="namespacemlask.html#a1b75d43bc5532e0eb2c06905580e83e1">vectorOut_</a>{{Y[x]}}, err);</div>
+<div class="line">  }</div>
+<div class="line">  model.fit(learning_rate); <span class="comment">// if your model has log set to true and it has correct number of epochs, then on fit it will update progress bar.</span></div>
+<div class="line">}</div>
+<div class="ttc" id="anamespacemlask_html_a1b75d43bc5532e0eb2c06905580e83e1"><div class="ttname"><a href="namespacemlask.html#a1b75d43bc5532e0eb2c06905580e83e1">mlask::vectorOut_</a></div><div class="ttdeci">Eigen::Matrix&lt; float_t, Eigen::Dynamic, 1 &gt; vectorOut_</div><div class="ttdef"><b>Definition</b> types.hpp:17</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md10"></a>
+Exporting the model</h3>
+<div class="fragment"><div class="line">std::cout&lt;&lt;model.str();</div>
+<div class="line">model.exportToONNX(<span class="stringliteral">&quot;onnx_format.onnx&quot;</span>, <span class="stringliteral">&quot;One Neuron Neural Network&quot;</span>);</div>
+</div><!-- fragment --><p><em>For more examples, please refer to the <a href="https://github.com/Kamzie1/MLask">Documentation</a></em></p>
+<p>(<a href="#readme-top">back to top</a>)</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
 License</h2>
 <p>Distributed under the MIT. See <code>LICENSE</code> for more information.</p>
 <p>(<a href="#readme-top">back to top</a>)</p>

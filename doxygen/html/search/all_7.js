@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['in_5f_0',['in_',['../classmlask_1_1Layer.html#a48c159ac11b279d8ef2a6829996b3099',1,'mlask::Layer']]],
-  ['input_1',['INPUT',['../Model_8cpp.html#a1bb283bd7893b9855e2f23013891fc82',1,'Model.cpp']]],
-  ['installation_2',['Installation',['../index.html#autotoc_md4',1,'']]],
-  ['int_5ft_3',['int_t',['../namespacemlask.html#ab238d2c0a4e84d4034ec76b3c2a46963',1,'mlask']]],
-  ['internalactivationfunction_4',['InternalActivationFunction',['../namespacemlask.html#a3ab11aab7817db5bcd1879a5b9a5cfff',1,'mlask']]],
-  ['internalactivationfunction_2ehpp_5',['InternalActivationFunction.hpp',['../InternalActivationFunction_8hpp.html',1,'']]]
+  ['layer_0',['layer',['../index.html#autotoc_md8',1,'Adding your own layer'],['../classmlask_1_1Layer.html',1,'mlask::Layer']]],
+  ['layer_2ehpp_1',['Layer.hpp',['../Layer_8hpp.html',1,'']]],
+  ['license_2',['License',['../index.html#autotoc_md11',1,'']]],
+  ['list_5fof_5factivation_5ffunctions_3',['list_of_activation_functions',['../InternalActivationFunction_8hpp.html#aa8a20a56718715d155191cab574d4875',1,'LIST_OF_ACTIVATION_FUNCTIONS:&#160;InternalActivationFunction.hpp'],['../namespacemlask.html#a3ab11aab7817db5bcd1879a5b9a5cfffa85c4f8a8a40da3df854f30b8dd60a917',1,'mlask::LIST_OF_ACTIVATION_FUNCTIONS']]],
+  ['log_4',['LOG',['../Model_8hpp.html#adadcbb9e426e1bf6bd7ac06dac7f958b',1,'Model.hpp']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['the_20project_0',['About The Project',['../index.html#autotoc_md0',1,'']]],
-  ['tryconverttoonnx_1',['tryconverttoonnx',['../classmlask_1_1FullyConnectedLayer.html#adcb05acdebb72955356dc9e2c28f6a1b',1,'mlask::FullyConnectedLayer::tryConvertToONNX()'],['../classmlask_1_1Layer.html#ad6cc2f66c4dbba9584b4baba6489942c',1,'mlask::Layer::tryConvertToONNX()'],['../classmlask_1_1Relu.html#a3cff624756afd44acaaa5048ddb26fce',1,'mlask::Relu::tryConvertToONNX()']]],
-  ['types_2ehpp_2',['types.hpp',['../types_8hpp.html',1,'']]]
+  ['uint_5ft_0',['uint_t',['../namespacemlask.html#af3867e001cb1799c5191ebb4550a2127',1,'mlask']]],
+  ['usage_1',['Usage',['../index.html#autotoc_md6',1,'']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['mlask_0',['mlask',['../namespacemlask.html',1,'mlask'],['../index.html',1,'MLask']]],
-  ['model_1',['model',['../classmlask_1_1Model.html',1,'mlask::Model'],['../classmlask_1_1Model.html#aa7adb9aa5f0c6f5654efe6e83fbd0196',1,'mlask::Model::Model()']]],
-  ['model_2ecpp_2',['Model.cpp',['../Model_8cpp.html',1,'']]],
-  ['model_2ehpp_3',['Model.hpp',['../Model_8hpp.html',1,'']]]
+  ['operator_5b_5d_0',['operator[]',['../classmlask_1_1Model.html#a6db433088ee3c5b6ec9f32eb5cc11654',1,'mlask::Model']]],
+  ['out_5f_1',['out_',['../classmlask_1_1Layer.html#a5631ad605ed13f06c80462eaee36d6d0',1,'mlask::Layer']]],
+  ['output_2',['OUTPUT',['../Model_8cpp.html#a61a3c9a18380aafb6e430e79bf596557',1,'Model.cpp']]],
+  ['own_20layer_3',['Adding your own layer',['../index.html#autotoc_md8',1,'']]]
 ];

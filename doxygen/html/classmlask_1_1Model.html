@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acdd14d7540295e006ee50876da67448d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6db433088ee3c5b6ec9f32eb5cc11654" id="r_a6db433088ee3c5b6ec9f32eb5cc11654"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classmlask_1_1Layer.html">Layer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#a6db433088ee3c5b6ec9f32eb5cc11654">operator[]</a> (std::size_t index) const</td></tr>
 <tr class="separator:a6db433088ee3c5b6ec9f32eb5cc11654"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2dd81256c50873708aa2eff38bfa17c" id="r_aa2dd81256c50873708aa2eff38bfa17c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#aa2dd81256c50873708aa2eff38bfa17c">cstr</a> () const</td></tr>
-<tr class="memdesc:aa2dd81256c50873708aa2eff38bfa17c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the model.  <br /></td></tr>
-<tr class="separator:aa2dd81256c50873708aa2eff38bfa17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58eaf6bd30340243ba076a6dd8b60f1d" id="r_a58eaf6bd30340243ba076a6dd8b60f1d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#a58eaf6bd30340243ba076a6dd8b60f1d">str</a> () const</td></tr>
+<tr class="memdesc:a58eaf6bd30340243ba076a6dd8b60f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the model.  <br /></td></tr>
+<tr class="separator:a58eaf6bd30340243ba076a6dd8b60f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19027c75ea79749a95ca569b7173abd3" id="r_a19027c75ea79749a95ca569b7173abd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#a19027c75ea79749a95ca569b7173abd3">exportToONNX</a> (std::filesystem::path path, std::string name=&quot;MLask Model&quot;) const</td></tr>
 <tr class="memdesc:a19027c75ea79749a95ca569b7173abd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">exports the model to a file in ONNX format  <br /></td></tr>
 <tr class="separator:a19027c75ea79749a95ca569b7173abd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -366,25 +366,6 @@ template&lt;std::size_t in, std::size_t out&gt; </div>
 
 </div>
 </div>
-<a id="aa2dd81256c50873708aa2eff38bfa17c" name="aa2dd81256c50873708aa2eff38bfa17c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2dd81256c50873708aa2eff38bfa17c">&#9670;&#160;</a></span>cstr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string mlask::Model::cstr </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns a string representation of the model. </p>
-
-</div>
-</div>
 <a id="a19027c75ea79749a95ca569b7173abd3" name="a19027c75ea79749a95ca569b7173abd3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a19027c75ea79749a95ca569b7173abd3">&#9670;&#160;</a></span>exportToONNX()</h2>
 
@@ -533,6 +514,25 @@ template&lt;std::size_t in, std::size_t out&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58eaf6bd30340243ba076a6dd8b60f1d" name="a58eaf6bd30340243ba076a6dd8b60f1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58eaf6bd30340243ba076a6dd8b60f1d">&#9670;&#160;</a></span>str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string mlask::Model::str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a string representation of the model. </p>
 
 </div>
 </div>

@@ -121,9 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad6cc2f66c4dbba9584b4baba6489942c" id="r_ad6cc2f66c4dbba9584b4baba6489942c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Layer.html#ad6cc2f66c4dbba9584b4baba6489942c">tryConvertToONNX</a> (onnx::GraphProto *graph, std::string input, std::string output) const</td></tr>
 <tr class="memdesc:ad6cc2f66c4dbba9584b4baba6489942c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the layer to ONNX format. If the layer cannot be converted, it should return false.  <br /></td></tr>
 <tr class="separator:ad6cc2f66c4dbba9584b4baba6489942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2f0cb85aa40870bb7eac519dff263bf" id="r_ac2f0cb85aa40870bb7eac519dff263bf"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Layer.html#ac2f0cb85aa40870bb7eac519dff263bf">cstr</a> () const</td></tr>
-<tr class="memdesc:ac2f0cb85aa40870bb7eac519dff263bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
-<tr class="separator:ac2f0cb85aa40870bb7eac519dff263bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a311a78bc421e39afb314b2e89d698233" id="r_a311a78bc421e39afb314b2e89d698233"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Layer.html#a311a78bc421e39afb314b2e89d698233">str</a> () const</td></tr>
+<tr class="memdesc:a311a78bc421e39afb314b2e89d698233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
+<tr class="separator:a311a78bc421e39afb314b2e89d698233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -188,35 +188,6 @@ Protected Attributes</h2></td></tr>
 <p>Defines a way to backpropagate error in backropagation algorithm. </p>
 
 <p>Implemented in <a class="el" href="classmlask_1_1ActivationFunction.html#a900de53f13fb0d6467a74a88e1e17a64">mlask::ActivationFunction</a>, <a class="el" href="classmlask_1_1FullyConnectedLayer.html#aa855ea531f3b56daa8db69de1208bbca">mlask::FullyConnectedLayer&lt; in, out &gt;</a>, and <a class="el" href="classmlask_1_1Relu.html#ade5f80e2067041307972d6f04a3f55fc">mlask::Relu</a>.</p>
-
-</div>
-</div>
-<a id="ac2f0cb85aa40870bb7eac519dff263bf" name="ac2f0cb85aa40870bb7eac519dff263bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2f0cb85aa40870bb7eac519dff263bf">&#9670;&#160;</a></span>cstr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::string mlask::Layer::cstr </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a string representation of the layer. </p>
-
-<p>Reimplemented in <a class="el" href="classmlask_1_1FullyConnectedLayer.html#af4b299b8eccce15e6e2c16bd09d0ab3c">mlask::FullyConnectedLayer&lt; in, out &gt;</a>, and <a class="el" href="classmlask_1_1Relu.html#a5bcec8042462f157a0079041be4dd076">mlask::Relu</a>.</p>
 
 </div>
 </div>
@@ -327,6 +298,35 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a311a78bc421e39afb314b2e89d698233" name="a311a78bc421e39afb314b2e89d698233"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a311a78bc421e39afb314b2e89d698233">&#9670;&#160;</a></span>str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string mlask::Layer::str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a string representation of the layer. </p>
+
+<p>Reimplemented in <a class="el" href="classmlask_1_1FullyConnectedLayer.html#adb5c7fc81072e4914c684d372ed6243f">mlask::FullyConnectedLayer&lt; in, out &gt;</a>, and <a class="el" href="classmlask_1_1Relu.html#a70b1fb6ec28b24aa295568ada8dee9d6">mlask::Relu</a>.</p>
 
 </div>
 </div>

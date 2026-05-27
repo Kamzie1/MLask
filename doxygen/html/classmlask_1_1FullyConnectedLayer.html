@@ -123,9 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adcb05acdebb72955356dc9e2c28f6a1b" id="r_adcb05acdebb72955356dc9e2c28f6a1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1FullyConnectedLayer.html#adcb05acdebb72955356dc9e2c28f6a1b">tryConvertToONNX</a> (onnx::GraphProto *graph, std::string input, std::string output) const override</td></tr>
 <tr class="memdesc:adcb05acdebb72955356dc9e2c28f6a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise.  <br /></td></tr>
 <tr class="separator:adcb05acdebb72955356dc9e2c28f6a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4b299b8eccce15e6e2c16bd09d0ab3c" id="r_af4b299b8eccce15e6e2c16bd09d0ab3c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1FullyConnectedLayer.html#af4b299b8eccce15e6e2c16bd09d0ab3c">cstr</a> () const override</td></tr>
-<tr class="memdesc:af4b299b8eccce15e6e2c16bd09d0ab3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
-<tr class="separator:af4b299b8eccce15e6e2c16bd09d0ab3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb5c7fc81072e4914c684d372ed6243f" id="r_adb5c7fc81072e4914c684d372ed6243f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1FullyConnectedLayer.html#adb5c7fc81072e4914c684d372ed6243f">str</a> () const override</td></tr>
+<tr class="memdesc:adb5c7fc81072e4914c684d372ed6243f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
+<tr class="separator:adb5c7fc81072e4914c684d372ed6243f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af60ff62cccfce97f972ccb0861629a6d" id="r_af60ff62cccfce97f972ccb0861629a6d"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; <a class="el" href="namespacemlask.html#abd9dbd6c70287870e4fafd11f57c4ceb">float_t</a>, out, in &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1FullyConnectedLayer.html#af60ff62cccfce97f972ccb0861629a6d">weights</a> ()</td></tr>
 <tr class="separator:af60ff62cccfce97f972ccb0861629a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc4fa48fd79750f5d7df7dc92e4232ad" id="r_abc4fa48fd79750f5d7df7dc92e4232ad"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; <a class="el" href="namespacemlask.html#abd9dbd6c70287870e4fafd11f57c4ceb">float_t</a>, in, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1FullyConnectedLayer.html#abc4fa48fd79750f5d7df7dc92e4232ad">bias</a> ()</td></tr>
@@ -247,37 +247,6 @@ template&lt;std::size_t in, std::size_t out&gt; </div>
 
 </div>
 </div>
-<a id="af4b299b8eccce15e6e2c16bd09d0ab3c" name="af4b299b8eccce15e6e2c16bd09d0ab3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4b299b8eccce15e6e2c16bd09d0ab3c">&#9670;&#160;</a></span>cstr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;std::size_t in, std::size_t out&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string <a class="el" href="classmlask_1_1FullyConnectedLayer.html">mlask::FullyConnectedLayer</a>&lt; in, out &gt;::cstr </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a string representation of the layer. </p>
-
-<p>Reimplemented from <a class="el" href="classmlask_1_1Layer.html#ac2f0cb85aa40870bb7eac519dff263bf">mlask::Layer</a>.</p>
-
-</div>
-</div>
 <a id="aca7e6cc911d5e8e9b0733e9c0af5fbad" name="aca7e6cc911d5e8e9b0733e9c0af5fbad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca7e6cc911d5e8e9b0733e9c0af5fbad">&#9670;&#160;</a></span>fit()</h2>
 
@@ -339,6 +308,37 @@ template&lt;std::size_t in, std::size_t out&gt; </div>
 <p>A function defining moving foraward in neural network. </p>
 
 <p>Implements <a class="el" href="classmlask_1_1Layer.html#afb0fdb29b10ff00b17553b35ef122d03">mlask::Layer</a>.</p>
+
+</div>
+</div>
+<a id="adb5c7fc81072e4914c684d372ed6243f" name="adb5c7fc81072e4914c684d372ed6243f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb5c7fc81072e4914c684d372ed6243f">&#9670;&#160;</a></span>str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t in, std::size_t out&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="classmlask_1_1FullyConnectedLayer.html">mlask::FullyConnectedLayer</a>&lt; in, out &gt;::str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a string representation of the layer. </p>
+
+<p>Reimplemented from <a class="el" href="classmlask_1_1Layer.html#a311a78bc421e39afb314b2e89d698233">mlask::Layer</a>.</p>
 
 </div>
 </div>

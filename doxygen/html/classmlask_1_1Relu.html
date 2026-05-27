@@ -123,9 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3cff624756afd44acaaa5048ddb26fce" id="r_a3cff624756afd44acaaa5048ddb26fce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Relu.html#a3cff624756afd44acaaa5048ddb26fce">tryConvertToONNX</a> (onnx::GraphProto *graph, std::string input, std::string output) const override</td></tr>
 <tr class="memdesc:a3cff624756afd44acaaa5048ddb26fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to convert the layer to ONNX format.  <br /></td></tr>
 <tr class="separator:a3cff624756afd44acaaa5048ddb26fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bcec8042462f157a0079041be4dd076" id="r_a5bcec8042462f157a0079041be4dd076"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Relu.html#a5bcec8042462f157a0079041be4dd076">cstr</a> () const override</td></tr>
-<tr class="memdesc:a5bcec8042462f157a0079041be4dd076"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
-<tr class="separator:a5bcec8042462f157a0079041be4dd076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70b1fb6ec28b24aa295568ada8dee9d6" id="r_a70b1fb6ec28b24aa295568ada8dee9d6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Relu.html#a70b1fb6ec28b24aa295568ada8dee9d6">str</a> () const override</td></tr>
+<tr class="memdesc:a70b1fb6ec28b24aa295568ada8dee9d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the layer.  <br /></td></tr>
+<tr class="separator:a70b1fb6ec28b24aa295568ada8dee9d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classmlask_1_1Layer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classmlask_1_1Layer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classmlask_1_1Layer.html">mlask::Layer</a></td></tr>
 <tr class="memitem:ae6949e887e768001bc18e200c2a01aad inherit pub_methods_classmlask_1_1Layer" id="r_ae6949e887e768001bc18e200c2a01aad"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Layer.html#ae6949e887e768001bc18e200c2a01aad">getIn</a> () const</td></tr>
 <tr class="separator:ae6949e887e768001bc18e200c2a01aad inherit pub_methods_classmlask_1_1Layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,35 +209,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a5bcec8042462f157a0079041be4dd076" name="a5bcec8042462f157a0079041be4dd076"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bcec8042462f157a0079041be4dd076">&#9670;&#160;</a></span>cstr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string mlask::Relu::cstr </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns a string representation of the layer. </p>
-
-<p>Reimplemented from <a class="el" href="classmlask_1_1Layer.html#ac2f0cb85aa40870bb7eac519dff263bf">mlask::Layer</a>.</p>
-
-</div>
-</div>
 <a id="af38582616d89e8f9caa9b3a5f8d2d10e" name="af38582616d89e8f9caa9b3a5f8d2d10e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af38582616d89e8f9caa9b3a5f8d2d10e">&#9670;&#160;</a></span>fit()</h2>
 
@@ -302,6 +273,35 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Output vector after applying <a class="el" href="classmlask_1_1Relu.html" title="Layer representing Relu activation function.">Relu</a> activation function </dd></dl>
 
 <p>Implements <a class="el" href="classmlask_1_1Layer.html#afb0fdb29b10ff00b17553b35ef122d03">mlask::Layer</a>.</p>
+
+</div>
+</div>
+<a id="a70b1fb6ec28b24aa295568ada8dee9d6" name="a70b1fb6ec28b24aa295568ada8dee9d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70b1fb6ec28b24aa295568ada8dee9d6">&#9670;&#160;</a></span>str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string mlask::Relu::str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a string representation of the layer. </p>
+
+<p>Reimplemented from <a class="el" href="classmlask_1_1Layer.html#a311a78bc421e39afb314b2e89d698233">mlask::Layer</a>.</p>
 
 </div>
 </div>

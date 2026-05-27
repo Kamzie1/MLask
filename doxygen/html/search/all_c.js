@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['readme_2emd_0',['README.md',['../README_8md.html',1,'']]],
-  ['register_1',['register',['../InternalActivationFunction_8hpp.html#a2223d5adfbc3b58a98abdaeb1572d595',1,'REGISTER:&#160;InternalActivationFunction.hpp'],['../Model_8cpp.html#a2223d5adfbc3b58a98abdaeb1572d595',1,'REGISTER:&#160;Model.cpp'],['../namespacemlask.html#a3ab11aab7817db5bcd1879a5b9a5cfffa7820edfb916af8357bd4d3c02f5fbd83',1,'mlask::REGISTER']]],
-  ['relu_2',['relu',['../classmlask_1_1Relu.html',1,'mlask::Relu'],['../classmlask_1_1Relu.html#a5964cae229e9a1704e549cf0bfa4366f',1,'mlask::Relu::Relu()']]],
-  ['relu_2ecpp_3',['Relu.cpp',['../Relu_8cpp.html',1,'']]],
-  ['relu_2ehpp_4',['Relu.hpp',['../Relu_8hpp.html',1,'']]]
+  ['size_5ft_0',['size_t',['../namespacemlask.html#a8df6414f85396bd6f41b035364807e59',1,'mlask']]],
+  ['started_1',['Getting Started',['../index.html#autotoc_md3',1,'']]],
+  ['str_2',['str',['../classmlask_1_1FullyConnectedLayer.html#adb5c7fc81072e4914c684d372ed6243f',1,'mlask::FullyConnectedLayer::str()'],['../classmlask_1_1Layer.html#a311a78bc421e39afb314b2e89d698233',1,'mlask::Layer::str()'],['../classmlask_1_1Model.html#a58eaf6bd30340243ba076a6dd8b60f1d',1,'mlask::Model::str()'],['../classmlask_1_1Relu.html#a70b1fb6ec28b24aa295568ada8dee9d6',1,'mlask::Relu::str()']]]
 ];
