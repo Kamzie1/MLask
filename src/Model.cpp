@@ -41,6 +41,10 @@ vectorOut_ Model::forward(vectorIn_ input) const {
     return input;
 }
 
+// void backprop(std::vector<float_t> input, std::vector<float_t>expected, err_function err){
+//     backprop(Eigen::Map<vectorIn_>(input.data(), input.size()), Eigen::Map<vectorOut_>(expected.data(), expected.size(), 1), err);
+// }
+
 void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
     for (const std::unique_ptr<Layer> &layer : layers_) {
         input = layer->forward(input);
@@ -50,6 +54,7 @@ void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
         error = (*it).get()->backward(error);
     }
 }
+
 void Model::fit(float_t learning_rate){
     epoch_++;
     for (const std::unique_ptr<Layer> &layer : layers_) {
@@ -141,11 +146,11 @@ void Model::exportToONNX(std::filesystem::path path, std::string name)const{
     LOG("Succesfully written ONNX file to disk");
 }
 
-std::string Model::cstr()const{
+std::string Model::str()const{
     std::string model_cstr;
     for (const std::unique_ptr<Layer> &layer : layers_) {
         model_cstr = model_cstr +  "\n|\n" + "V\n";
-        model_cstr += layer->cstr();
+        model_cstr += layer->str();
     }
     return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
 }

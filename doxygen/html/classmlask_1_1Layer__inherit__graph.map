@@ -1,0 +1,9 @@
+<map id="mlask::Layer" name="mlask::Layer">
+<area shape="rect" id="Node000001" title="Base class for all layers in the neural network." alt="" coords="270,5,377,31"/>
+<area shape="rect" id="Node000002" href="$classmlask_1_1ActivationFunction.html" title="ActivationFunction class." alt="" coords="5,86,196,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,38,134,88,132,83,277,33"/>
+<area shape="rect" id="Node000003" href="$classmlask_1_1FullyConnectedLayer.html" title="Class representing fully connected layer." alt="" coords="220,79,427,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="326,44,326,79,321,79,321,44"/>
+<area shape="rect" id="Node000004" href="$classmlask_1_1Relu.html" title="Layer representing Relu activation function." alt="" coords="451,86,550,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="363,34,476,84,474,88,360,39"/>
+</map>

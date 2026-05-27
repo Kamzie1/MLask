@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classmlask_1_1Layer.html" title="Base class for all layers in the neural network." alt="" coords="5,63,112,88"/>
+<area shape="rect" id="Node000001" href="$classmlask_1_1ActivationFunction.html" title="ActivationFunction class." alt="" coords="168,5,359,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="110,56,159,41,207,28,209,33,161,46,111,61"/>
+<area shape="rect" id="Node000002" href="$classmlask_1_1FullyConnectedLayer.html" title="Class representing fully connected layer." alt="" coords="160,55,367,95"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="126,73,160,73,160,78,126,78"/>
+<area shape="rect" id="Node000003" href="$classmlask_1_1Relu.html" title="Layer representing Relu activation function." alt="" coords="214,120,313,145"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="111,90,161,105,214,119,213,124,159,110,110,95"/>
+</map>

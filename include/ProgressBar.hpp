@@ -3,13 +3,17 @@
 #include <iostream>
 
 namespace mlask{
+/** @brief Class used to write progress bars in the terminal */
 class ProgressBar{
     inline static const std::size_t size = 100;
     inline static const std::string title = "PROGRESS BAR";
 public:
+    /** @brief Draws the progress bar
+     * @param progress The progress value (0.0 to 1.0)
+     */
     static void draw(float progress){
         std::cout<<"\033[2J\033[H"; /* clear screen */
-        
+
         std::cout<<"\033[36m"; /* cyan color */
         for(std::size_t i=0;i<size-title.length();i++){
             std::cout<<'-';

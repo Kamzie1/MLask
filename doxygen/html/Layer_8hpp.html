@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">MLask<span id="projectnumber">&#160;1.0.0</span>
    </div>
-   <div id="projectbrief">Custom c++ library for deep learning</div>
+   <div id="projectbrief">A custom c++ deep learning library</div>
   </td>
  </tr>
  </tbody>
@@ -82,19 +82,56 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;Eigen/Core&gt;</code><br />
 <code>#include &lt;Eigen/Dense&gt;</code><br />
-<code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &quot;<a class="el" href="types_8hpp_source.html">types.hpp</a>&quot;</code><br />
 <code>#include &quot;onnx/onnx_pb.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Layer.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="Layer_8hpp__incl.png" border="0" usemap="#ainclude_2Layer_8hpp" alt=""/></div>
+<map name="ainclude_2Layer_8hpp" id="ainclude_2Layer_8hpp">
+<area shape="rect" title=" " alt="" coords="127,5,263,31"/>
+<area shape="rect" title=" " alt="" coords="5,152,97,177"/>
+<area shape="poly" title=" " alt="" coords="151,33,110,51,91,64,75,80,61,109,55,138,50,137,55,107,71,77,88,60,108,47,149,28"/>
+<area shape="rect" title=" " alt="" coords="85,79,188,104"/>
+<area shape="poly" title=" " alt="" coords="188,33,157,70,153,67,184,29"/>
+<area shape="rect" href="types_8hpp.html" title=" " alt="" coords="212,79,299,104"/>
+<area shape="poly" title=" " alt="" coords="207,29,239,66,235,70,203,33"/>
+<area shape="rect" title=" " alt="" coords="323,79,449,104"/>
+<area shape="poly" title=" " alt="" coords="227,28,343,71,341,76,225,33"/>
+<area shape="poly" title=" " alt="" coords="223,107,98,150,96,145,222,102"/>
+<area shape="rect" title=" " alt="" coords="125,152,196,177"/>
+<area shape="poly" title=" " alt="" coords="242,106,189,146,186,141,239,102"/>
+<area shape="rect" title=" " alt="" coords="220,152,291,177"/>
+<area shape="poly" title=" " alt="" coords="258,104,258,138,253,138,253,104"/>
+<area shape="rect" title=" " alt="" coords="315,152,382,177"/>
+<area shape="poly" title=" " alt="" coords="272,102,324,141,321,146,269,106"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="Layer_8hpp__dep__incl.png" border="0" usemap="#ainclude_2Layer_8hppdep" alt=""/></div>
+<map name="ainclude_2Layer_8hppdep" id="ainclude_2Layer_8hppdep">
+<area shape="rect" title=" " alt="" coords="374,5,510,31"/>
+<area shape="rect" href="ActivationFunction_8hpp.html" title=" " alt="" coords="28,79,251,104"/>
+<area shape="poly" title=" " alt="" coords="381,36,189,81,188,76,380,31"/>
+<area shape="rect" href="Model_8cpp.html" title=" " alt="" coords="309,225,421,251"/>
+<area shape="poly" title=" " alt="" coords="372,38,339,54,314,80,306,99,304,118,307,139,315,159,336,196,356,223,352,227,331,199,310,161,302,140,299,119,301,97,309,77,336,50,370,33"/>
+<area shape="rect" href="FullyConnectedLayer_8hpp.html" title=" " alt="" coords="324,79,560,104"/>
+<area shape="poly" title=" " alt="" coords="445,44,445,79,439,79,439,44"/>
+<area shape="rect" href="Model_8hpp.html" title=" " alt="" coords="371,152,513,177"/>
+<area shape="poly" title=" " alt="" coords="506,32,538,44,564,60,578,80,579,93,574,105,559,123,541,136,501,154,498,149,538,132,555,119,569,103,574,92,573,82,560,64,535,49,504,37"/>
+<area shape="rect" href="Relu_8hpp.html" title=" " alt="" coords="634,79,765,104"/>
+<area shape="poly" title=" " alt="" coords="497,32,658,76,657,81,496,37"/>
+<area shape="rect" href="ActivationFunction_8cpp.html" title=" " alt="" coords="5,152,199,177"/>
+<area shape="poly" title=" " alt="" coords="129,117,110,153,106,151,125,115"/>
+<area shape="poly" title=" " alt="" coords="169,109,270,175,347,223,344,227,267,180,166,114"/>
+<area shape="poly" title=" " alt="" coords="445,118,445,152,439,152,439,118"/>
+<area shape="poly" title=" " alt="" coords="421,189,379,227,376,223,418,185"/>
+<area shape="poly" title=" " alt="" coords="666,113,526,180,399,228,397,223,524,175,664,108"/>
+<area shape="rect" href="Relu_8cpp.html" title=" " alt="" coords="649,152,750,177"/>
+<area shape="poly" title=" " alt="" coords="702,118,702,152,697,152,697,118"/>
+</map>
 </div>
 </div>
 <p><a href="Layer_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -102,6 +139,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Layer.html">mlask::Layer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for all layers in the neural network.  <a href="classmlask_1_1Layer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>

@@ -14,7 +14,7 @@ class ActivationFunction : public Layer{
     actfunc func_;
     actfunc derv_;
 
-     vectorIn_ input_;
+    vectorIn_ input_;
 public:
     /**
      * @param func an activation function

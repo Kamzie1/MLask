@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">MLask<span id="projectnumber">&#160;1.0.0</span>
    </div>
-   <div id="projectbrief">Custom c++ library for deep learning</div>
+   <div id="projectbrief">A custom c++ deep learning library</div>
   </td>
  </tr>
  </tbody>
@@ -81,6 +81,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Class representing a neural network model.  
+ <a href="classmlask_1_1Model.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Model_8hpp_source.html">Model.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -89,7 +92,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa7adb9aa5f0c6f5654efe6e83fbd0196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a model.  <br /></td></tr>
 <tr class="separator:aa7adb9aa5f0c6f5654efe6e83fbd0196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93648a34badf4ee745ab3dc9a9461f71" id="r_a93648a34badf4ee745ab3dc9a9461f71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#a93648a34badf4ee745ab3dc9a9461f71">addLayer</a> (std::unique_ptr&lt; <a class="el" href="classmlask_1_1Layer.html">Layer</a> &gt; layer)</td></tr>
-<tr class="memdesc:a93648a34badf4ee745ab3dc9a9461f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a layer to the model(<a class="el" href="classmlask_1_1Layer.html">Layer</a> is an abstract class, see <a class="el" href="Layer_8hpp.html">Layer.hpp</a> for more details)  <br /></td></tr>
+<tr class="memdesc:a93648a34badf4ee745ab3dc9a9461f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a layer to the model(<a class="el" href="classmlask_1_1Layer.html" title="Base class for all layers in the neural network.">Layer</a> is an abstract class, see <a class="el" href="Layer_8hpp.html">Layer.hpp</a> for more details)  <br /></td></tr>
 <tr class="separator:a93648a34badf4ee745ab3dc9a9461f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace7b7e7edc24821b877b75a8cd0c97a9" id="r_ace7b7e7edc24821b877b75a8cd0c97a9"><td class="memTemplParams" colspan="2">template&lt;std::size_t in, std::size_t out&gt; </td></tr>
 <tr class="memitem:ace7b7e7edc24821b877b75a8cd0c97a9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlask_1_1Model.html#ace7b7e7edc24821b877b75a8cd0c97a9">addFullyConnectedLayer</a> ()</td></tr>
@@ -122,7 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a19027c75ea79749a95ca569b7173abd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">exports the model to a file in ONNX format  <br /></td></tr>
 <tr class="separator:a19027c75ea79749a95ca569b7173abd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class representing a neural network model. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa7adb9aa5f0c6f5654efe6e83fbd0196" name="aa7adb9aa5f0c6f5654efe6e83fbd0196"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa7adb9aa5f0c6f5654efe6e83fbd0196">&#9670;&#160;</a></span>Model()</h2>
 
@@ -301,7 +306,7 @@ template&lt;std::size_t in, std::size_t out&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Adds a layer to the model(<a class="el" href="classmlask_1_1Layer.html">Layer</a> is an abstract class, see <a class="el" href="Layer_8hpp.html">Layer.hpp</a> for more details) </p>
+<p>Adds a layer to the model(<a class="el" href="classmlask_1_1Layer.html" title="Base class for all layers in the neural network.">Layer</a> is an abstract class, see <a class="el" href="Layer_8hpp.html">Layer.hpp</a> for more details) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">layer</td><td>The layer to add </td></tr>

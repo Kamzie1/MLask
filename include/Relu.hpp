@@ -26,7 +26,7 @@ public:
      * @param output Name of the output tensor
      * @return True if the conversion was successful, false otherwise */
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
-    std::string cstr() const override{
+    std::string str() const override{
         return "Relu";
     }
 };

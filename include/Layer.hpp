@@ -1,13 +1,12 @@
 #pragma once
 #include <Eigen/Core>
 #include <Eigen/Dense>
-#include <ostream>
-#include <stdexcept>
 #include "types.hpp"
 #include "onnx/onnx_pb.h"
 
 namespace mlask {
 
+/** @brief Base class for all layers in the neural network */
 class Layer {
 protected:
     std::size_t in_;
@@ -26,6 +25,6 @@ protected:
     /** @brief Converts the layer to ONNX format. If the layer cannot be converted, it should return false. */
     virtual bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output)const { return false; }
     /** @brief Returns a string representation of the layer. */
-    virtual std::string cstr()const{ return "Layer"; }
+    virtual std::string str()const{ return "Layer"; }
 };
 } // namespace mlask

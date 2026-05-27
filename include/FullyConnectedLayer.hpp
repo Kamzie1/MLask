@@ -3,9 +3,7 @@
 #include "Eigen/Dense"
 #include <Eigen/Core>
 #include <cstddef>
-#include <iterator>
-#include <ostream>
-
+#include <iomanip>
 namespace mlask{
 
 /**
@@ -52,10 +50,7 @@ public:
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
     /* @brief Returns a string representation of the layer */
-    std::string cstr() const override{
-        return "FullyConnectedLayer: " + std::to_string(in) + " -> " + std::to_string(out);
-    }
-
+    std::string str() const override;
     /* getters */
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
     Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
@@ -115,4 +110,12 @@ bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph, std
     return true;
 }
 
+template<std::size_t in, std::size_t out>
+std::string FullyConnectedLayer<in, out>::str() const{
+    std::stringstream weights_stream;
+    weights_stream << std::fixed << std::setprecision(3) << weights_;
+    std::stringstream bias_stream;
+    bias_stream << std::fixed << std::setprecision(3) << bias_;
+    return "FullyConnectedLayer: " + std::to_string(in) + " -> " + std::to_string(out) + "\nWeights:\n" + weights_stream.str() + "\nBias:\n" + bias_stream.str();
+}
 }

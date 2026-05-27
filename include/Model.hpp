@@ -26,6 +26,7 @@
 
 
 namespace mlask {
+/** @brief Class representing a neural network model */
 class Model {
   private:
     std::size_t in_;
@@ -81,6 +82,13 @@ class Model {
      * @param err the error function to calculate the error between the expected and actual output
      */
     void backprop(vectorIn_ input, vectorOut_ expected, err_function err);
+    // /**
+    //  * @brief performs backpropagation algorithm
+    //  * @param input the input vector for the model
+    //  * @param expected the expected output vector for the given input
+    //  * @param err the error function to calculate the error between the expected and actual output
+    //  */
+    // void backprop(std::vector<float_t> input, std::vector<float_t>expected, err_function err);
     /**
      * @brief Fits the entire model(every layer added)
      * @param learning_rate The learning rate for the model
@@ -102,7 +110,7 @@ class Model {
     const Layer* operator[](std::size_t index)const { return getLayer(index); }
 
     /** @brief Returns a string representation of the model */
-    std::string cstr()const;
+    std::string str()const;
 
     /**
      * @brief exports the model to a file in ONNX format
