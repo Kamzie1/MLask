@@ -5,7 +5,7 @@
   <p align="center">
     A custom c++ deep learning library.
     <br />
-    <a href="https://github.com/Kamzie1/MLask"><strong>Explore the docs »</strong></a>
+    <a href="https://kamzie1.github.io/MLask"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Kamzie1/MLask/tests/OneNeuronNetwork.cpp">View Demo</a>
@@ -72,7 +72,7 @@ This is a custom c++ deep learning library. It was meant to be a challenge to un
 
 ### Built With
 
-* [CMake](https://cmake.org])
+* [CMake](https://cmake.org)
 * [Eigen](https://gitlab.com/libeigen/eigen)
 * [ONNX](https://github.com/onnx/onnx)
 * [Protobuf](https://github.com/protocolbuffers/protobuf)
@@ -151,7 +151,7 @@ for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
     model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
 ```
 
-_For more examples, please refer to the [Documentation](https://github.com/Kamzie1/MLask)_
+_For more examples, please refer to the [Documentation](kamzie1.github.io/MLask/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
