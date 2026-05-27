@@ -151,7 +151,7 @@ for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
     model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
 ```
 
-_For more examples, please refer to the [Documentation](kamzie1.github.io/MLask/)_
+_For more examples, please refer to the [Documentation](https://kamzie1.github.io/MLask/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
