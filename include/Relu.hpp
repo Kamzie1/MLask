@@ -3,7 +3,7 @@
 #include <Eigen/Core>
 
 namespace mlask{
-///@brief Layer representing Relu activation function
+/** @brief Layer representing Relu activation function */
 class Relu : public Layer{
     vectorIn_ input_;
 public:

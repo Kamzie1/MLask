@@ -8,9 +8,11 @@
 
 namespace mlask{
 
-///@brief Class representing fully connected layer.
-///@brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
-///@brief where all the neurons are connected with each other.
+/**
+ * @brief Class representing fully connected layer.
+ * @brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
+ * @brief where all the neurons are connected with each other.
+ */
 template<std::size_t in, std::size_t out>
 class FullyConnectedLayer : public Layer{
 private:
@@ -31,24 +33,26 @@ public:
         in_ = in;
         out_ = out;
     }
-    ///@brief A function defining moving foraward in neural network
+    /** @brief A function defining moving foraward in neural network */
     vectorOut_ forward(vectorIn_ input) override;
-    ///@brief A backtrack for backpropagation algorithm
+    /** @brief A backtrack for backpropagation algorithm */
     vectorIn_ backward(vectorOut_ error) override;
-    ///@brief A function that updates weights and biases
+    /** @brief A function that updates weights and biases */
     void fit(float_t learning_rate) override;
 
-    ///@brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
-    ///@param graph A pointer to the ONNX graph to which the layer should be added
-    /// @param input The name of the input tensor for this layer in the ONNX graph
-    /// @param output The name of the output tensor for this layer in the ONNX graph
+    /**
+     * @brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
+     * @param graph A pointer to the ONNX graph to which the layer should be added
+     * @param input The name of the input tensor for this layer in the ONNX graph
+     * @param output The name of the output tensor for this layer in the ONNX graph
+     */
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
-    //getters
+    /* getters */
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
     Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
 
-    //print
+    /* print */
     std::ostream& print(std::ostream& os)const override{return os<<weights_<<std::endl<<bias_<<std::endl;}
     friend std::ostream& operator<<(std::ostream& os, const FullyConnectedLayer& fullyConnectedLayer){ return fullyConnectedLayer.print(os); }
 };
