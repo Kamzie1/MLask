@@ -3,3 +3,5 @@ build/
 .cache/
 .git/
 compile_commands.json
+.venv/
+.onnx
