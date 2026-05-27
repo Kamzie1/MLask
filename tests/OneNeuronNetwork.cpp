@@ -11,7 +11,7 @@ using namespace mlask;
 float w = 0.3;
 float b = 0;
 
-#define SIZE 100
+#define SIZE 1000
 #define EPOCHS 10000
 
 vectorOut_ err(vectorOut_ result, vectorOut_ expected){
@@ -42,4 +42,5 @@ int main(){
         model.fit(learning_rate);
     }
     model[0]->print(std::cout) << std::endl;
+    model.exportToONNX("onnx_format.onnx");
 }

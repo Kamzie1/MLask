@@ -1,0 +1,17 @@
+:Ê
+4
+X
+Weightmatmul_resultMultiply_X_and_W"MatMul
+'
+matmul_result
+BiasYAdd_Bias"AddSingle_Neuron_Linear_Regression*BWeightJÎ–¥D*BBiasJ~ªDZ
+X
+
+
+batch_size
+b
+Y
+
+
+batch_size
+B

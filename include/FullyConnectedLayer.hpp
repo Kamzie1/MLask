@@ -1,22 +1,24 @@
 #pragma once
 #include "Layer.hpp"
 #include "Eigen/Dense"
+#include <Eigen/Core>
+#include <cstddef>
 #include <ostream>
 
 namespace mlask{
 
-///  Class representing fully connected layer.
-///  Meaning a layer with in_ number of neurons as an input and out_ number of neurons as an output,
-///  where all these neurons are connected with each other.
-template<std::size_t in_, std::size_t out_>
+///@brief Class representing fully connected layer.
+///@brief Meaning a layer with in number of neurons as an input and out number of neurons as an output,
+///@brief where all the neurons are connected with each other.
+template<std::size_t in, std::size_t out>
 class FullyConnectedLayer : public Layer{
 private:
-    Eigen::Matrix<float_t, out_, in_> weights_;
-    Eigen::Matrix<float_t, out_, 1> bias_;
+    Eigen::Matrix<float_t, out, in> weights_;
+    Eigen::Matrix<float_t, out, 1> bias_;
      vectorIn_ input_;
 
-    Eigen::Matrix<float_t, out_, in_> weightsChange_;
-    Eigen::Matrix<float_t, out_, 1> biasChange_;
+    Eigen::Matrix<float_t, out, in> weightsChange_;
+    Eigen::Matrix<float_t, out, 1> biasChange_;
     std::size_t epochs_;
 public:
     FullyConnectedLayer(){
@@ -25,42 +27,82 @@ public:
         weightsChange_.setZero();
         biasChange_.setZero();
         epochs_ = 0;
+        in_ = in;
+        out_ = out;
     }
-    /// A function defining moving foraward in neural network
+    ///@brief A function defining moving foraward in neural network
     vectorOut_ forward(vectorIn_ input) override;
-    /// A backtrack for backpropagation algorithm
+    ///@brief A backtrack for backpropagation algorithm
     vectorIn_ backward(vectorOut_ error) override;
-    /// A function that updates weights and biases
+    ///@brief A function that updates weights and biases
     void fit(float_t learning_rate) override;
 
-    Eigen::Matrix<float_t, out_, in_> weights(){ return weights_; }
-    Eigen::Matrix<float_t, in_, 1> bias(){ return bias_; }
+    ///@brief A function that tries to convert the layer to ONNX format, returns true if successful, false otherwise
+    bool tryConvertToONNX(onnx::GraphProto* graph)const override;
 
+    //getters
+    Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
+    Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
+
+    //print
     std::ostream& print(std::ostream& os)const override{return os<<weights_<<std::endl<<bias_<<std::endl;}
     friend std::ostream& operator<<(std::ostream& os, const FullyConnectedLayer& fullyConnectedLayer){ return fullyConnectedLayer.print(os); }
 };
 
-template <std::size_t in_, std::size_t out_>
-vectorOut_  FullyConnectedLayer<in_, out_>::forward(vectorIn_ input){
+template <std::size_t in, std::size_t out>
+vectorOut_  FullyConnectedLayer<in, out>::forward(vectorIn_ input){
     epochs_ += 1;
     input_ = input;
     return  weights_ * input + bias_;
 }
 
-template <std::size_t in_, std::size_t out_>
-vectorIn_  FullyConnectedLayer<in_, out_>::backward(vectorOut_ error){
+template <std::size_t in, std::size_t out>
+vectorIn_  FullyConnectedLayer<in, out>::backward(vectorOut_ error){
     biasChange_ = biasChange_ + error;
     weightsChange_ = weightsChange_ + error * input_.transpose();
     return weights_.transpose() * error;
 }
 
-template <std::size_t in_, std::size_t out_>
-void FullyConnectedLayer<in_, out_>::fit(float_t learning_rate){
+template <std::size_t in, std::size_t out>
+void FullyConnectedLayer<in, out>::fit(float_t learning_rate){
     weights_ = weights_ - (weightsChange_ / epochs_ * learning_rate);
     bias_ = bias_ - (biasChange_ / epochs_ * learning_rate);
     weightsChange_.setZero();
     biasChange_.setZero();
     epochs_ = 0;
+}
+
+template <std::size_t in, std::size_t out>
+bool FullyConnectedLayer<in, out>::tryConvertToONNX(onnx::GraphProto* graph)const{
+    onnx::TensorProto* w = graph->add_initializer();
+    w->set_name("Weight");
+    w->set_data_type(onnx::TensorProto::FLOAT);
+    w->add_dims(in);
+    w->add_dims(out);
+    constexpr int weightsLayout = (in > 1) ? Eigen::RowMajor : Eigen::ColMajor;
+    Eigen::Matrix<float, out, in, weightsLayout | Eigen::DontAlign> onnxWeights = weights_;
+    w->set_raw_data(onnxWeights.data(), onnxWeights.size() * sizeof(float_t));
+
+    onnx::TensorProto* b = graph->add_initializer();
+    b->set_name("Bias");
+    b->set_data_type(onnx::TensorProto::FLOAT);
+    b->add_dims(out);
+    b->set_raw_data(bias_.data(), bias_.size() * sizeof(float_t));
+
+    onnx::NodeProto* matmul_node = graph->add_node();
+    matmul_node->set_op_type("MatMul");
+    matmul_node->set_name("Multiply_X_and_W");
+    matmul_node->add_input("X");
+    matmul_node->add_input("Weight");
+    matmul_node->add_output("matmul_result");
+
+    onnx::NodeProto* add_node = graph->add_node();
+    add_node->set_op_type("Add");
+    add_node->set_name("Add_Bias");
+    add_node->add_input("matmul_result");
+    add_node->add_input("Bias");
+    add_node->add_output("Y");
+    return true;
 }
 
 }
