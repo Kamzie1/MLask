@@ -79,12 +79,6 @@ class Model {
      * @param derv The derivative of the activation function
      */
     void addLambdaActivationFunction( actfunc func, actfunc derv);
-    /**
-     * @brief creates and adds ActivationFunction layer of type activationFunction. Only mlask built-in are available
-     * @param activationFunction The type of activation function to add
-     * @throws ArchitectureError if the activation function type is not supported. See InternalActivationFunction.hpp for more details
-     */
-    void addActivationFunction(InternalActivationFunction activationFunction);
 
     /**
      * @brief performs backpropagation algorithm

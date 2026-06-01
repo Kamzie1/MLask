@@ -59,24 +59,6 @@ void Model::addLambdaActivationFunction( actfunc func, actfunc derv){
     LOG("Added Activation Function");
 }
 
-void Model::addActivationFunction(InternalActivationFunction activationFunction){
-    switch(activationFunction){
-        #define REGISTER(X)\
-            case InternalActivationFunction::X:\
-            {\
-                layers_.push_back(std::make_unique<X>(lastOut()));\
-                std::cout<<"[INFO] Added "<< #X<<std::endl;\
-                break;\
-            }
-            LIST_OF_ACTIVATION_FUNCTIONS
-        #undef REGISTER
-        default:
-            std::string message = "There is no such internal activation function. See InternalActivationFunction enum.";
-            ERR(message);
-            throw ArchitectureError(message, layers_.size()); 
-    }
-}
-
 void Model::convertToONNX(onnx::ModelProto& model, std::string name) const{
     model.set_ir_version(ONNX_IR_VERSION);
     onnx::OperatorSetIdProto* opset = model.add_opset_import();
