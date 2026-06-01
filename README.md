@@ -131,7 +131,8 @@ public:
     void fit(float_t learning_rate) override {}
 };
 
-model.addLayer(std::make_unique<CustomLayer>()); // You can add your custom layer to the model like this.
+model.addLayer<CustomLayer>();// You can add your custom layer to the model like this.
+model.addLayer(std::make_unique<CustomLayer>()); // or like this
 ```
 
 ### Training the model
@@ -139,7 +140,7 @@ model.addLayer(std::make_unique<CustomLayer>()); // You can add your custom laye
 float_t learning_rate = 0.001;
 for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
   for(int x = 0;x<=SIZE;x++){
-    model.backprop(vectorIn{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut{{Y[x]}}, err);
+    model.backprop<DerivedStandardMean>(vectorIn{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut{{Y[x]}}); // in arguments we construct an Eigen vector using mlask predefined type for simplicity
   }
   model.fit(learning_rate); // if your model has log set to true and it has correct number of epochs, then on fit it will update progress bar.
 }
@@ -161,8 +162,3 @@ _For more examples, please refer to the [Documentation](https://kamzie1.github.i
 Distributed under the MIT. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

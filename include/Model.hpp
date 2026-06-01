@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "FullyConnectedLayer.hpp"
+#include "exceptions.hpp"
 #include <iostream>
 #include <filesystem>
 
@@ -52,7 +53,7 @@ class Model {
     /**
      * @brief Adds a layer to the model(Layer is an abstract class, see Layer.hpp for more details)
      * @param layer The layer to add
-     * @throws std::runtime_error if the input size of the layer does not match the output size of the previous layer
+     * @throws ArchitectureError if the input size of the layer does not match the output size of the previous layer
      */
     void addLayer(std::unique_ptr<Layer> layer);
 
@@ -68,7 +69,7 @@ class Model {
      * @brief creates and adds fullyConnectedLayer with given in and out neurons
      * @tparam in number of input neurons
      * @tparam out number of output neurons
-     * @throws std::invalid_argument if the input size of the layer does not match the output size of the previous layer
+     * @throws ArchitectureError if the input size of the layer does not match the output size of the previous layer
      */
     template<std::size_t in, std::size_t out>
     void addFullyConnectedLayer();
@@ -81,7 +82,7 @@ class Model {
     /**
      * @brief creates and adds ActivationFunction layer of type activationFunction. Only mlask built-in are available
      * @param activationFunction The type of activation function to add
-     * @throws std::invalid_argument if the activation function type is not supported. See InternalActivationFunction.hpp for more details
+     * @throws ArchitectureError if the activation function type is not supported. See InternalActivationFunction.hpp for more details
      */
     void addActivationFunction(InternalActivationFunction activationFunction);
 
@@ -142,6 +143,7 @@ class Model {
      * @brief exports the model to a file in ONNX format
      * @param path The path to the file where the model will be saved
      * @param name The name of the model to be used in the ONNX file (optional, default is "MLask Model")
+     * @throws throws ExportError if the export failed
      */
     void exportToONNX(std::filesystem::path path, std::string name = "MLask Model") const;
 
@@ -150,9 +152,10 @@ private:
      * @brief converts the model to ONNX format
      * @param model The ONNX model to convert to
      * @param name The name of the model to be used in the ONNX file
+     * @throws throws ExportError if the export failed
      * @return true if the conversion was successful, false otherwise
      */
-    bool tryConvertToONNX(onnx::ModelProto& model, std::string name)const;
+    void convertToONNX(onnx::ModelProto& model, std::string name)const;
     /** @brief gets the output size of the last layer in the model. For validation purposes. */
     inline std::size_t lastOut()const{
         if(layers_.empty()){
@@ -168,7 +171,7 @@ void Model::addFullyConnectedLayer(){
     std::size_t last_out = lastOut();
     if(in != last_out){
         ERR("Input size of the layer does not match the output size of the previous layer");
-        throw std::invalid_argument("Input size of the layer does not match the output size of the previous layer");
+        throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size());
     }
     else{
         layers_.push_back(std::make_unique<FullyConnectedLayer<in, out>>());

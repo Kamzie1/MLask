@@ -42,6 +42,5 @@ int main(){
     }
 
     std::cout<<"Error: "<< model.whole_error<MeanSquared>(input, expected) << std::endl;
-    std::cout<<model.str();
     model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
 }

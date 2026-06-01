@@ -15,6 +15,7 @@
 #include <string>
 #include <unistd.h>
 #include "config.h"
+#include "exceptions.hpp"
 
 #define INPUT "X"
 #define OUTPUT "Y"
@@ -27,7 +28,7 @@ void Model::addLayer(std::unique_ptr<Layer> layer) {
     std::size_t out = lastOut();
     if(layer->getIn() != out && layer->getIn()!=0){
         ERR("Input size of the layer does not match the output size of the previous layer");
-        throw std::runtime_error("Input size of the layer does not match the output size of the previous layer");
+        throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size()); 
     }
     else{
         layers_.push_back(std::move(layer));
@@ -49,6 +50,7 @@ void Model::fit(float_t learning_rate){
     }
     if(log_){
         ProgressBar::draw((float)epoch_ / (float)epochs_);
+        std::cout<<str()<<std::endl;
     }
 }
 
@@ -71,11 +73,11 @@ void Model::addActivationFunction(InternalActivationFunction activationFunction)
         default:
             std::string message = "There is no such internal activation function. See InternalActivationFunction enum.";
             ERR(message);
-            throw std::invalid_argument(message);
+            throw ArchitectureError(message, layers_.size()); 
     }
 }
 
-bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
+void Model::convertToONNX(onnx::ModelProto& model, std::string name) const{
     model.set_ir_version(ONNX_IR_VERSION);
     onnx::OperatorSetIdProto* opset = model.add_opset_import();
     opset->set_version(ONNX_OPSET_VERSION);
@@ -96,7 +98,7 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
         }
         if(!layer->tryConvertToONNX(graph, input, output)){
             ERR("Failed to convert a layer at position " + index + " to ONNX format.")
-            return false;
+            throw ExportError("Failed to convert a layer to ONNX", index);
         }
         input = output;
         index++;
@@ -117,18 +119,15 @@ bool Model::tryConvertToONNX(onnx::ModelProto& model, std::string name) const{
     y_tensor_type->set_elem_type(onnx::TensorProto::FLOAT);
     y_tensor_type->mutable_shape()->add_dim()->set_dim_param("batch_size");
     y_tensor_type->mutable_shape()->add_dim()->set_dim_value(out_);
-    return true;
 }
 
 void Model::exportToONNX(std::filesystem::path path, std::string name)const{
     onnx::ModelProto model;
-    if(!tryConvertToONNX(model, name)){
-        ERR("Failed to convert model to ONNX");
-        return;
-    }
+    convertToONNX(model, name);
     std::fstream output(path, std::ios::out | std::ios::trunc | std::ios::binary);
     if (!model.SerializeToOstream(&output)) {
         ERR("Failed to write ONNX file to disk");
+        throw ExportError("Failed to write ONNX file to disk", layers_.size());
     }
     LOG("Succesfully written ONNX file to disk");
 }
