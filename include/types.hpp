@@ -13,8 +13,8 @@ namespace mlask {
     using size_t = std::size_t;
     using int_t = std::int32_t;
     using uint_t = std::uint32_t;
-    using vectorIn_ = Eigen::Matrix<float_t, Eigen::Dynamic, 1>;
-    using vectorOut_ = Eigen::Matrix<float_t, Eigen::Dynamic, 1>;
-    using err_function = vectorOut_ (*)(vectorOut_, vectorOut_);
+    using vectorIn = Eigen::Matrix<float_t, Eigen::Dynamic, 1>;
+    using vectorOut = Eigen::Matrix<float_t, Eigen::Dynamic, 1>;
+    using err_function = float_t (*)(float_t, float_t);
     using actfunc = std::function<float_t(float_t)>;
 }

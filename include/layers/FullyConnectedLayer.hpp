@@ -18,7 +18,7 @@ class FullyConnectedLayer : public Layer{
 private:
     Eigen::Matrix<float_t, out, in> weights_;
     Eigen::Matrix<float_t, out, 1> bias_;
-     vectorIn_ input_;
+     vectorIn input_;
 
     Eigen::Matrix<float_t, out, in> weightsChange_;
     Eigen::Matrix<float_t, out, 1> biasChange_;
@@ -35,9 +35,9 @@ public:
         out_ = out;
     }
     /** @brief A function defining moving foraward in neural network */
-    vectorOut_ forward(vectorIn_ input) override;
+    vectorOut forward(vectorIn input) override;
     /** @brief A backtrack for backpropagation algorithm */
-    vectorIn_ backward(vectorOut_ error) override;
+    vectorIn backward(vectorOut error) override;
     /** @brief A function that updates weights and biases */
     void fit(float_t learning_rate) override;
 
@@ -57,14 +57,14 @@ public:
 };
 
 template <std::size_t in, std::size_t out>
-vectorOut_  FullyConnectedLayer<in, out>::forward(vectorIn_ input){
+vectorOut  FullyConnectedLayer<in, out>::forward(vectorIn input){
     epochs_ += 1;
     input_ = input;
     return  weights_ * input + bias_;
 }
 
 template <std::size_t in, std::size_t out>
-vectorIn_  FullyConnectedLayer<in, out>::backward(vectorOut_ error){
+vectorIn  FullyConnectedLayer<in, out>::backward(vectorOut error){
     biasChange_ = biasChange_ + error;
     weightsChange_ = weightsChange_ + error * input_.transpose();
     return weights_.transpose() * error;
