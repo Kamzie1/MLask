@@ -8,9 +8,9 @@
 using namespace mlask;
 class TestLayer : public mlask::Layer {
   public:
-    vectorOut_ forward(vectorIn_ input) override { return input; }
+    vectorOut forward(vectorIn input) override { return input; }
     void fit(float_t learning_rate) override { return; }
-    vectorIn_ backward(vectorOut_ error) override { return error; }
+    vectorIn backward(vectorOut error) override { return error; }
 };
 
 class AddingLayer : public mlask::Layer {
@@ -19,12 +19,12 @@ class AddingLayer : public mlask::Layer {
 
   public:
     AddingLayer(int adder) : adder_(adder) {}
-    vectorOut_ forward(vectorIn_ input) override {
+    vectorOut forward(vectorIn input) override {
         input.array() += adder_;
         return input;
     }
     void fit(float_t learning_rate) override { return; }
-    vectorIn_ backward(vectorOut_ error) override { return error; }
+    vectorIn backward(vectorOut error) override { return error; }
 };
 
 void test_test_layer(){

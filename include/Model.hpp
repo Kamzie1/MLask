@@ -1,6 +1,8 @@
 #pragma once
+#include "GenericErrorFunction.hpp"
 #include "Layer.hpp"
 #include "InternalActivationFunction.hpp"
+#include "ErrorFunction.hpp"
 #include <Eigen/Core>
 #include <cstddef>
 #include <filesystem>
@@ -55,6 +57,14 @@ class Model {
     void addLayer(std::unique_ptr<Layer> layer);
 
     /**
+     * @brief Adds a layer to the model(Layer is an abstract class, see Layer.hpp for more details)
+     * @tparam layer The layer to add, a class needs to derive from layer abstract class, see layer.hpp and TLayer concept
+     * @details This one doesn't check if in and out are valid
+     */
+    template<TLayer layer, typename... Args>
+    void addLayer(Args&&... args);
+
+    /**
      * @brief creates and adds fullyConnectedLayer with given in and out neurons
      * @tparam in number of input neurons
      * @tparam out number of output neurons
@@ -67,9 +77,9 @@ class Model {
      * @param func The activation function
      * @param derv The derivative of the activation function
      */
-    void addActivationFunctionWithLambdas( actfunc func, actfunc derv);
+    void addLambdaActivationFunction( actfunc func, actfunc derv);
     /**
-     * @brief creates and adds ActivationFunction layer of type activationFunction
+     * @brief creates and adds ActivationFunction layer of type activationFunction. Only mlask built-in are available
      * @param activationFunction The type of activation function to add
      * @throws std::invalid_argument if the activation function type is not supported. See InternalActivationFunction.hpp for more details
      */
@@ -79,16 +89,11 @@ class Model {
      * @brief performs backpropagation algorithm
      * @param input the input vector for the model
      * @param expected the expected output vector for the given input
-     * @param err the error function to calculate the error between the expected and actual output
+     * @tparam err ErrorFunction used to calculate error, notice that this should be derived version
      */
-    void backprop(vectorIn_ input, vectorOut_ expected, err_function err);
-    // /**
-    //  * @brief performs backpropagation algorithm
-    //  * @param input the input vector for the model
-    //  * @param expected the expected output vector for the given input
-    //  * @param err the error function to calculate the error between the expected and actual output
-    //  */
-    // void backprop(std::vector<float_t> input, std::vector<float_t>expected, err_function err);
+    template<ErrorFunction err>
+    void backprop(vectorIn input, vectorOut expected);
+
     /**
      * @brief Fits the entire model(every layer added)
      * @param learning_rate The learning rate for the model
@@ -99,7 +104,28 @@ class Model {
      * @param input The input vector for the model
      * @return The output vector for the given input
      */
-    vectorOut_ forward(vectorIn_ input) const;
+    vectorOut forward(vectorIn input) const;
+
+    /**
+     * @brief calculates an error of a model
+     * @param input The input vector for the model
+     * @param expected The expected vector of values
+     * @tparam err the error function (see ErrorFunction.hpp or include/error_functions)
+     * @return the error based on an error function
+     */
+    template<ErrorFunction err>
+    [[nodiscard]] float_t error(vectorIn input, vectorOut expected)const;
+
+
+    /**
+     * @brief calculates an error of a model based on many inputs
+     * @param input The input matrix for the model
+     * @param expected The expected matrix of values
+     * @tparam err the error function (see ErrorFunction.hpp or include/error_functions)
+     * @return the error based on an error function
+     */
+    template<ErrorFunction err>
+    [[nodiscard]] float_t whole_error(Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> input, Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> expected)const;
 
     /**
      * @brief gets the layer at a given index
@@ -110,7 +136,7 @@ class Model {
     const Layer* operator[](std::size_t index)const { return getLayer(index); }
 
     /** @brief Returns a string representation of the model */
-    std::string str()const;
+    [[nodiscard]] std::string str()const;
 
     /**
      * @brief exports the model to a file in ONNX format
@@ -147,6 +173,38 @@ void Model::addFullyConnectedLayer(){
     else{
         layers_.push_back(std::make_unique<FullyConnectedLayer<in, out>>());
         LOG("Added FullyConnected Layer");
+    }
+}
+
+template<TLayer layer, typename... Args>
+void Model::addLayer(Args&&... args){
+    layers_.push_back(std::make_unique<layer>(std::forward<Args>(args)...));
+}
+
+template<ErrorFunction err>
+float_t Model::error(vectorIn input, vectorOut expected)const{
+    vectorOut result = forward(input);
+    return GenericErrorFunction<err>::error_scalar(result, expected);
+}
+
+template<ErrorFunction err>
+float_t Model::whole_error(Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> inputs, Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> expected_values)const{
+    float_t error_value = 0;
+    std::size_t size = inputs.rows();
+    for(std::size_t i=0;i<size;i++){
+        error_value += error<err>(inputs.row(i).transpose(), expected_values.row(i).transpose());
+    }
+    return error_value / size;
+}
+
+template<ErrorFunction err>
+void Model::backprop(vectorIn input, vectorOut expected){
+    for (const std::unique_ptr<Layer> &layer : layers_) {
+        input = layer->forward(input);
+    }
+    vectorOut error = GenericErrorFunction<err>::error(input, expected);
+    for (auto it = layers_.rbegin(); it!=layers_.rend(); ++it){
+        error = (*it).get()->backward(error);
     }
 }
 

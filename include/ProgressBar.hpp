@@ -6,7 +6,7 @@ namespace mlask{
 /** @brief Class used to write progress bars in the terminal */
 class ProgressBar{
     inline static const std::size_t size = 100;
-    inline static const std::string title = "PROGRESS BAR";
+    inline static const std::string title = "LEARNING PROGRESS BAR";
 public:
     /** @brief Draws the progress bar
      * @param progress The progress value (0.0 to 1.0)

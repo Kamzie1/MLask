@@ -1,38 +1,31 @@
 #pragma once
 #include "Layer.hpp"
-#include "Eigen/Dense"
 
 namespace mlask{
-
-/**
- * @brief ActivationFunction class
- * @brief Class representing an activation function via two functions passed in constructor
- * @brief This class is not convertible to ONNX and should preferably be used only for prototyping.
- * @brief To create your own activation function, you can inherit from Layer abstract class and define the forward and backward methods.
+/** @brief base class for Activation Functions, meant for simplicity in definition.
+ * @details it strips children from fit method override must and also make it easy to define forrward and backward passes via activate and derived functions that act on a single value, rather than entire vector.
  */
 class ActivationFunction : public Layer{
-    actfunc func_;
-    actfunc derv_;
-
-    vectorIn_ input_;
+private:
+    vectorIn input_;
+    /** @brief activation function signature. see Relu.cpp
+     * @param in x
+     * @return y
+     */
+    virtual float_t activate(float_t input) = 0;
+    /** @brief derived version of activate function. see Relu.cpp
+     * @param in x
+     * @return y
+     */
+    virtual float_t derived(float_t input) = 0;
 public:
-    /**
-     * @param func an activation function
-     * @param derv is a derived form of func
-     * @param in size of the input, in=0 means the input is not restricted to certain size
-     */
-    ActivationFunction(actfunc func, actfunc derv, std::size_t in = 0):func_(func), derv_(derv) {in_ = in; out_ = in;}
-    /** @brief Performs forward propagation
-     * @param input the input vector
-     * @return the output vector
-     */
-    vectorOut_ forward(vectorIn_ input) override;
-    /** @brief Performs backward propagation
-     * @param error the error vector
-     * @return the gradient vector
-     */
-    vectorIn_ backward(vectorOut_ error) override;
-    /** @brief No parameters to fit in an activation function, so this method does nothing */
-    void fit(float_t learning_rate) override {}
+    /** @brief Defines a way to move forward in a neural network */
+    vectorOut forward(vectorIn)override;
+    /** @brief Defines a way to backpropagate error in backropagation algorithm */
+    vectorIn backward(vectorOut)override;
+    /** @brief Describes how the layer 'learns', meaning it defines how layer updates itself. */
+    void fit(float_t learning_rate)override{};
+    /** @brief Returns a string representation of the layer. */
+    std::string str()const override{ return "Activation Function"; }
 };
 }

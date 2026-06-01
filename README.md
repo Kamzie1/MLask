@@ -115,7 +115,7 @@ Model model(1, 1, 1,); // input of size 1, output of size 1, 1 layer
 // You can add specific mlask layers
 model.addFullyConnectedLayer<1, 1>(); // Correct output->input flow is validated
 model.addActivationFunction(InternalActivationFunction::Relu); //Only builtin activation functions listed in InternalActivationFunctioon enum
-model.addActivationFunctionWithLambdas([](float_t x){ return 0.5*x*x; }, [](float_t x){ return x; } ); // A layer that should be used only for prototyping.
+model.addLambdaActivationFunction([](float_t x){ return 0.5*x*x; }, [](float_t x){ return x; } ); // A layer that should be used only for prototyping.
 ```
 
 #### Adding your own layer
@@ -126,8 +126,8 @@ You can define and add your own layer. All you need to do is create a class that
 class CustomLayer : public Layer{
 public:
     // You need to override these functions. However if you want your layer to be exportable to ONNX for example, you also need to override tryConvertToONNX.
-    vectorOut_ forward(vectorIn_ input) override;
-    vectorIn_ backward(vectorOut_ error) override;
+    vectorOut forward(vectorIn input) override;
+    vectorIn backward(vectorOut error) override;
     void fit(float_t learning_rate) override {}
 };
 
@@ -139,7 +139,7 @@ model.addLayer(std::make_unique<CustomLayer>()); // You can add your custom laye
 float_t learning_rate = 0.001;
 for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
   for(int x = 0;x<=SIZE;x++){
-    model.backprop(vectorIn_{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut_{{Y[x]}}, err);
+    model.backprop(vectorIn{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut{{Y[x]}}, err);
   }
   model.fit(learning_rate); // if your model has log set to true and it has correct number of epochs, then on fit it will update progress bar.
 }

@@ -2,13 +2,13 @@
 #include <Eigen/Dense>
 
 namespace mlask{
-vectorOut_ ActivationFunction::forward(vectorIn_ input) {
+vectorOut ActivationFunction::forward(vectorIn input) {
     input_ = input;
-    return input.unaryExpr([this](float_t x){ return func_(x); });
+    return input.unaryExpr([this](float_t x){ return activate(x); });
 }
 
-vectorIn_ ActivationFunction::backward(vectorOut_ error) {
-    auto derivative =  input_.unaryExpr([this](float_t x){ return derv_(x); });
+vectorIn ActivationFunction::backward(vectorOut error) {
+    auto derivative =  input_.unaryExpr([this](float_t x){ return derived(x); });
     return error.cwiseProduct(derivative);
 }
 }

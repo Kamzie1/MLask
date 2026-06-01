@@ -44,7 +44,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_library(mlask STATIC
     src/Model.cpp
-    src/Relu.cpp
+    src/activation_functions/Relu.cpp
+    src/LambdaActivationFunction.cpp
     src/ActivationFunction.cpp
 )
 target_compile_features(mlask PRIVATE cxx_std_23)
@@ -53,7 +54,11 @@ target_link_libraries(mlask PUBLIC Eigen3::Eigen
     onnx_proto
     protobuf::libprotobuf
 )
-include_directories(${CMAKE_SOURCE_DIR}/include
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/layers
+    ${CMAKE_SOURCE_DIR}/include/activation_functions
+    ${CMAKE_SOURCE_DIR}/include/error_functions
     ${CMAKE_CURRENT_BINARY_DIR}/config
     ${onnx_SOURCE_DIR}
     ${onnx_BINARY_DIR}

@@ -4,7 +4,8 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
-#include "ActivationFunction.hpp"
+#include "GenericErrorFunction.hpp"
+#include "LambdaActivationFunction.hpp"
 #include "InternalActivationFunction.hpp"
 #include "Layer.hpp"
 #include "Relu.hpp"
@@ -34,25 +35,11 @@ void Model::addLayer(std::unique_ptr<Layer> layer) {
     }
 }
 
-vectorOut_ Model::forward(vectorIn_ input) const {
+vectorOut Model::forward(vectorIn input) const {
     for (const std::unique_ptr<Layer> &layer : layers_) {
         input = layer->forward(input);
     }
     return input;
-}
-
-// void backprop(std::vector<float_t> input, std::vector<float_t>expected, err_function err){
-//     backprop(Eigen::Map<vectorIn_>(input.data(), input.size()), Eigen::Map<vectorOut_>(expected.data(), expected.size(), 1), err);
-// }
-
-void Model::backprop(vectorIn_ input, vectorOut_ expected, err_function err){
-    for (const std::unique_ptr<Layer> &layer : layers_) {
-        input = layer->forward(input);
-    }
-    vectorOut_ error = err(input, expected);
-    for (auto it = layers_.rbegin(); it!=layers_.rend(); ++it){
-        error = (*it).get()->backward(error);
-    }
 }
 
 void Model::fit(float_t learning_rate){
@@ -65,8 +52,8 @@ void Model::fit(float_t learning_rate){
     }
 }
 
-void Model::addActivationFunctionWithLambdas( actfunc func, actfunc derv){
-    layers_.push_back(std::make_unique<ActivationFunction>(func, derv, lastOut()));
+void Model::addLambdaActivationFunction( actfunc func, actfunc derv){
+    layers_.push_back(std::make_unique<LambdaActivationFunction>(func, derv, lastOut()));
     LOG("Added Activation Function");
 }
 

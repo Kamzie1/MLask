@@ -1,4 +1,6 @@
+#include "ErrorFunction.hpp"
 #include "Layer.hpp"
+#include "MeanSquared.hpp"
 #include "Model.hpp"
 #include <Eigen/Core>
 #include <cstdlib>
@@ -11,10 +13,6 @@ float b = 0;
 
 #define SIZE 1000
 #define EPOCHS 10000
-
-vectorOut_ err(vectorOut_ result, vectorOut_ expected){
-    return result - expected;
-}
 
 int main(){
     std::default_random_engine generator;
@@ -31,10 +29,19 @@ int main(){
     float_t learning_rate = 0.001;
     for(std::size_t epochs=0; epochs < EPOCHS; epochs++){
         for(int x = 0;x<=SIZE;x++){
-            model.backprop(vectorIn_{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut_{{Y[x]}}, err);
+            model.backprop<DerivedMeanSquared>(vectorIn{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut{{Y[x]}});
         }
         model.fit(learning_rate);
     }
+   
+    vectorIn input(SIZE+1);
+    vectorOut expected(SIZE+1);
+    for(int x = 0;x<=SIZE;x++){
+        input(x) =  (x-(SIZE/2.f))/(SIZE/2.f);
+        expected(x) =  w * x + b;
+    }
+
+    std::cout<<"Error: "<< model.whole_error<MeanSquared>(input, expected) << std::endl;
     std::cout<<model.str();
     model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
 }
