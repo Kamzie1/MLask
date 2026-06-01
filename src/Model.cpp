@@ -1,21 +1,11 @@
 #include "Model.hpp"
-#include <Eigen/Core>
-#include <cstddef>
-#include <iostream>
-#include <memory>
-#include <stdexcept>
-#include "GenericErrorFunction.hpp"
 #include "LambdaActivationFunction.hpp"
-#include "InternalActivationFunction.hpp"
-#include "Layer.hpp"
-#include "Relu.hpp"
 #include "ProgressBar.hpp"
 #include "onnx/onnx_pb.h"
 #include <fstream>
 #include <string>
 #include <unistd.h>
 #include "config.h"
-#include "exceptions.hpp"
 
 #define INPUT "X"
 #define OUTPUT "Y"

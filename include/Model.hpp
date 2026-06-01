@@ -1,7 +1,6 @@
 #pragma once
 #include "GenericErrorFunction.hpp"
 #include "Layer.hpp"
-#include "InternalActivationFunction.hpp"
 #include "ErrorFunction.hpp"
 #include <Eigen/Core>
 #include <cstddef>
