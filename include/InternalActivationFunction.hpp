@@ -4,7 +4,12 @@ namespace mlask{
 
 /** @brief List of activation functions built in MLask. */
 #define LIST_OF_ACTIVATION_FUNCTIONS\
-    REGISTER(Relu)
+    REGISTER(Relu)\
+    REGISTER(LeakyRelu)\
+    REGISTER(Sigmoid)\
+    REGISTER(SoftMax)\
+    REGISTER(Tanh)\
+    REGISTER(Swish)
 
 /** @brief Enum of activation functions built in MLask. */
 enum class InternalActivationFunction{
