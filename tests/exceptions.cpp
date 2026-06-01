@@ -16,7 +16,6 @@ public:
 int main(){
     Model model(1, 4);
     model.addFullyConnectedLayer<1,4>();
-    model.addActivationFunction(InternalActivationFunction::Relu);
     model.addLambdaActivationFunction([](float_t x){ return 0.5*x*x; }, [](float_t x){ return x; } );
     model.addLayer<Relu>();
     model.addLayer<CustomLayer>();// You can add your custom layer to the model like this.
