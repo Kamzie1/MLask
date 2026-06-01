@@ -54,14 +54,16 @@ target_link_libraries(mlask PUBLIC Eigen3::Eigen
     onnx_proto
     protobuf::libprotobuf
 )
-include_directories(
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/include/layers
-    ${CMAKE_SOURCE_DIR}/include/activation_functions
-    ${CMAKE_SOURCE_DIR}/include/error_functions
-    ${CMAKE_CURRENT_BINARY_DIR}/config
+target_include_directories(mlask PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/layers>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/activation_functions>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/error_functions>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/config>
     ${onnx_SOURCE_DIR}
     ${onnx_BINARY_DIR}
 )
 
-add_subdirectory(tests)
+if(PROJECT_IS_TOP_LEVEL)
+    add_subdirectory(tests)
+endif()
