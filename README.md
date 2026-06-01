@@ -92,10 +92,17 @@ This is a custom c++ deep learning library. It was meant to be a challenge to un
 ### Installation
 
 ```cmake
+# add these to install faster, however protobuf is pretty big, so it will take a while. Be patient.
+set(protobuf_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(ONNX_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+
 include(FetchContent)
 FetchContent_Declare(MLask
     GIT_REPOSITORY https://gitlab.com/Kamzie1/MLask.git
-    GIT_TAG 1.0.0
+    GIT_TAG 1.0.3
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM)
