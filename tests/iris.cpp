@@ -6,6 +6,7 @@
 #include "Sigmoid.hpp"
 #include "labeling_functions.hpp"
 #include <cstdlib>
+#include <ostream>
 #include <vector>
 #include <fstream>
 #include <Relu.hpp>
@@ -55,8 +56,8 @@ int main(){
     std::mt19937 g(rd());
 
     std::shuffle(data.begin(), data.end(), g);
-    std::vector<std::vector<float_t>> train(data.begin(), data.begin()+130);
-    std::vector<std::vector<float_t>> test(data.begin() + 130, data.end());
+    std::vector<std::vector<float_t>> train(data.begin(), data.begin()+100);
+    std::vector<std::vector<float_t>> test(data.begin() + 100, data.end());
 
     std::vector<float_t> trainY;
     std::vector<float_t> testY;
@@ -76,4 +77,11 @@ int main(){
 
     model.exportToONNX("iris_model.onnx", "iris");
     std::cout<<conf<<std::endl;
+    
+    std::vector<std::vector<float_t>> onnx_test ={{6.9,3.1,5.4,2.1}, {5.0,3.3,1.4,0.2}, {5.1,3.4,1.5,0.2}, {6.1,2.9,4.7,1.4}};
+    for(int i=0;i<onnx_test.size();i++){
+        std::stringstream result;
+        result<< std::fixed << std::setprecision(3)<< model.forward(Eigen::Map<const Eigen::VectorXf>(onnx_test[i].data(), onnx_test[i].size()));
+        std::cout<<result.str()<<std::endl;
+    }
 }
