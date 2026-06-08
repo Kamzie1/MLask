@@ -4,7 +4,7 @@
 namespace mlask{
 
 /** @brief class reprsenting Sigmoid activation function */
-class Sigmoid : ActivationFunction{
+class Sigmoid : public ActivationFunction{
     vectorIn input_;
     float_t activate(float_t input)override;
     float_t derived(float_t input)override;

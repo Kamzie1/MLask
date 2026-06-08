@@ -17,4 +17,6 @@ namespace mlask {
     using vectorOut = Eigen::Matrix<float_t, Eigen::Dynamic, 1>;
     using err_function = float_t (*)(float_t, float_t);
     using actfunc = std::function<float_t(float_t)>;
+    using matrixIn = std::vector<std::vector<float_t>>;
+    using matrixOut = std::vector<std::vector<float_t>>;
 }

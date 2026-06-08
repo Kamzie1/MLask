@@ -4,7 +4,7 @@
 namespace mlask{
 
 /** @brief class reprsenting Hyperbolic Tangent activation function */
-class Tanh: ActivationFunction{
+class Tanh: public ActivationFunction{
     vectorIn input_;
     float_t activate(float_t input)override;
     float_t derived(float_t input)override;

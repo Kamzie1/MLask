@@ -5,14 +5,14 @@
 namespace mlask{
 
 /** @brief Categorical Cross-Entropy Error Function */
-struct BinaryCrossEntropy{
+struct CategoricalCrossEntropy{
     float_t operator()(float_t result, float_t expected)const{
         return -1*result*log(expected);
     }
 };
 
 /** @brief Derived Categorical Cross-Entropy Error Function */
-struct DerivedBinaryCrossEntropy{
+struct DerivedCategoricalCrossEntropy{
     float_t operator()(float_t result, float_t expected)const{
         return -1 * result / expected;
     }

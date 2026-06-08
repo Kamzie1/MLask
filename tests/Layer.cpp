@@ -6,14 +6,14 @@
 #include <memory>
 
 using namespace mlask;
-class TestLayer : public mlask::Layer {
+class TestLayer : public Layer {
   public:
     vectorOut forward(vectorIn input) override { return input; }
     void fit(float_t learning_rate) override { return; }
     vectorIn backward(vectorOut error) override { return error; }
 };
 
-class AddingLayer : public mlask::Layer {
+class AddingLayer : public Layer {
   private:
     mlask::float_t adder_;
 

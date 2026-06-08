@@ -8,7 +8,7 @@ Relu::Relu(std::size_t in){
 }
 
 float_t Relu::activate(float_t input){
-   return std::max(0.f,input); 
+   return std::max<float_t>(0,input); 
 }
 
 float_t Relu::derived(float_t input){

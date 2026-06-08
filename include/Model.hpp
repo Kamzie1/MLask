@@ -1,31 +1,19 @@
 #pragma once
+#include "ConfusionMatrix.hpp"
 #include "GenericErrorFunction.hpp"
 #include "Layer.hpp"
 #include "ErrorFunction.hpp"
 #include <Eigen/Core>
 #include <cstddef>
 #include <filesystem>
+#include <iterator>
 #include <memory>
+#include <stdexcept>
 #include <vector>
 #include "FullyConnectedLayer.hpp"
 #include "exceptions.hpp"
 #include <iostream>
 #include <filesystem>
-
-#ifdef DEBUG
-
-#define LOG(X) std::cout<<"[INFO] "<<(X)<<std::endl;
-#define WARN(X) std::cout<<"[WARN] "<<(X)<<std::endl;
-#define ERR(X) std::cerr<<"[ERROR] "<<(X)<<std::endl;
-
-#else
-
-#define LOG(X)
-#define WARN(X)
-#define ERR(X)
-
-#endif
-
 
 namespace mlask {
 /** @brief Class representing a neural network model */
@@ -92,7 +80,7 @@ class Model {
      * @brief Fits the entire model(every layer added)
      * @param learning_rate The learning rate for the model
      */
-    void fit(float_t learning_rate);
+    void fit_layers(float_t learning_rate);
     /**
      * @brief calculates the output for given input
      * @param input The input vector for the model
@@ -101,25 +89,33 @@ class Model {
     vectorOut forward(vectorIn input) const;
 
     /**
-     * @brief calculates an error of a model
-     * @param input The input vector for the model
-     * @param expected The expected vector of values
+     * @brief performs learning loop
      * @tparam err the error function (see ErrorFunction.hpp or include/error_functions)
-     * @return the error based on an error function
-     */
-    template<ErrorFunction err>
-    [[nodiscard]] float_t error(vectorIn input, vectorOut expected)const;
-
-
-    /**
-     * @brief calculates an error of a model based on many inputs
      * @param input The input matrix for the model
      * @param expected The expected matrix of values
-     * @tparam err the error function (see ErrorFunction.hpp or include/error_functions)
-     * @return the error based on an error function
+     * @param epochs number of times to perform learning process
+     * @param learning_rate the speed of learning (suggested small numbers e.g 0.0001)
      */
     template<ErrorFunction err>
-    [[nodiscard]] float_t whole_error(Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> input, Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> expected)const;
+    void fit(const matrixIn& input, const matrixOut& expected, std::size_t epochs, float_t learning_rate);
+
+    /**
+     * @brief performs learning loop
+     * @tparam err the error function (see ErrorFunction.hpp or include/error_functions)
+     * @param input The input matrix for the model
+     * @param expected The expected vector of values
+     * @param epochs number of times to perform learning process
+     * @param learning_rate the speed of learning (suggested small numbers e.g 0.0001)
+     */
+    template<ErrorFunction err>
+    void fit(const matrixIn& input, const std::vector<float_t>& expected, std::size_t epochs, float_t learning_rate);
+
+    /** Returns a confusion matrix of the model based on give test dataset
+     * @param input test input
+     * @param expected test expected label
+     * @return ConfusionMatrix of the model
+     */
+    ConfusionMatrix evaluate(const matrixIn& input, const std::vector<float_t>& expected)const;
 
     /**
      * @brief gets the layer at a given index
@@ -139,6 +135,10 @@ class Model {
      * @throws throws ExportError if the export failed
      */
     void exportToONNX(std::filesystem::path path, std::string name = "MLask Model") const;
+
+    friend std::ostream & operator<<(std::ostream &os, const Model& model) {
+        return os << model.str();
+    }
 
 private:
     /**
@@ -163,34 +163,16 @@ template <std::size_t in, std::size_t out>
 void Model::addFullyConnectedLayer(){
     std::size_t last_out = lastOut();
     if(in != last_out){
-        ERR("Input size of the layer does not match the output size of the previous layer");
         throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size());
     }
     else{
         layers_.push_back(std::make_unique<FullyConnectedLayer<in, out>>());
-        LOG("Added FullyConnected Layer");
     }
 }
 
 template<TLayer layer, typename... Args>
 void Model::addLayer(Args&&... args){
     layers_.push_back(std::make_unique<layer>(std::forward<Args>(args)...));
-}
-
-template<ErrorFunction err>
-float_t Model::error(vectorIn input, vectorOut expected)const{
-    vectorOut result = forward(input);
-    return GenericErrorFunction<err>::error_scalar(result, expected);
-}
-
-template<ErrorFunction err>
-float_t Model::whole_error(Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> inputs, Eigen::Matrix<float_t, Eigen::Dynamic, Eigen::Dynamic> expected_values)const{
-    float_t error_value = 0;
-    std::size_t size = inputs.rows();
-    for(std::size_t i=0;i<size;i++){
-        error_value += error<err>(inputs.row(i).transpose(), expected_values.row(i).transpose());
-    }
-    return error_value / size;
 }
 
 template<ErrorFunction err>
@@ -204,4 +186,31 @@ void Model::backprop(vectorIn input, vectorOut expected){
     }
 }
 
+template<ErrorFunction err>
+void Model::fit(const matrixIn& input, const std::vector<float_t>& expected, std::size_t epochs, float_t learning_rate){
+    if (input.size() != expected.size())
+        throw std::invalid_argument("input has different dimension then expected, can't fit the model");
+
+    for(std::size_t epochs_=0; epochs_ < epochs; epochs_++){
+        for(std::size_t x = 0;x<input.size();x++){
+            backprop<err>(Eigen::Map<const Eigen::VectorXf>(input[x].data(), input[x].size()), vectorOut{{expected[x]}});
+        }
+        fit_layers(learning_rate);
+    }
+
+}
+
+template<ErrorFunction err>
+void Model::fit(const matrixIn& input, const matrixOut& expected, std::size_t epochs, float_t learning_rate){
+    if (input.size() != expected.size())
+        throw std::invalid_argument("input has different dimension then expected, can't fit the model");
+
+    for(std::size_t epochs_=0; epochs_ < epochs; epochs_++){
+        for(std::size_t x = 0;x<input.size();x++){
+            backprop<err>(Eigen::Map<const Eigen::VectorXf>(input[x].data(), input[x].size()), Eigen::Map<const Eigen::VectorXf>(expected[x].data(), input[x].size()));
+        }
+        fit_layers(learning_rate);
+    }
+
+}
 } // namespace mlask

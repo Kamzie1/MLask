@@ -23,11 +23,19 @@ private:
     Eigen::Matrix<float_t, out, in> weightsChange_;
     Eigen::Matrix<float_t, out, 1> biasChange_;
     std::size_t epochs_;
+    float_t gradient_clamp_;
 public:
-    /// @brief A constructor for fully connected layer, initializes weights and biases with random values, and changes with zeros
-    FullyConnectedLayer(){
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW 
+    /** @brief A constructor for fully connected layer, initializes weights and biases with random values, and changes with zeros
+     * @param gradient_clamp a restriction for gradient size, default 100
+     */
+    FullyConnectedLayer(float_t gradient_clamp=100):gradient_clamp_(gradient_clamp){
+        float_t limit = std::sqrt(6.0f / (in + out));
+    
         weights_.setRandom();
-        bias_.setRandom();
+        weights_ *= limit;
+
+        bias_.setZero();
         weightsChange_.setZero();
         biasChange_.setZero();
         epochs_ = 0;
@@ -53,7 +61,7 @@ public:
     std::string str() const override;
     /* getters */
     Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
-    Eigen::Matrix<float_t, in, 1> bias(){ return bias_; }
+    Eigen::Matrix<float_t, out, 1> bias(){ return bias_; }
 };
 
 template <std::size_t in, std::size_t out>
@@ -65,15 +73,22 @@ vectorOut  FullyConnectedLayer<in, out>::forward(vectorIn input){
 
 template <std::size_t in, std::size_t out>
 vectorIn  FullyConnectedLayer<in, out>::backward(vectorOut error){
-    biasChange_ = biasChange_ + error;
-    weightsChange_ = weightsChange_ + error * input_.transpose();
-    return weights_.transpose() * error;
+    auto clamped_error = error.unaryExpr([this](float_t x) {
+        return std::max<float_t>(-gradient_clamp_, std::min<float_t>(gradient_clamp_, x));
+    });
+    biasChange_ = biasChange_ + clamped_error;
+    weightsChange_ = weightsChange_ + clamped_error * input_.transpose();
+    return weights_.transpose() * clamped_error;
 }
 
 template <std::size_t in, std::size_t out>
 void FullyConnectedLayer<in, out>::fit(float_t learning_rate){
-    weights_ = weights_ - (weightsChange_ / epochs_ * learning_rate);
-    bias_ = bias_ - (biasChange_ / epochs_ * learning_rate);
+    if (epochs_ == 0) {
+        return; 
+    }
+
+    weights_ = weights_ - (weightsChange_ / (float_t)epochs_ * learning_rate);
+    bias_ = bias_ - (biasChange_ / (float_t)epochs_ * learning_rate);
     weightsChange_.setZero();
     biasChange_.setZero();
     epochs_ = 0;

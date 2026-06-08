@@ -1,10 +1,11 @@
 #pragma once
 #include "ActivationFunction.hpp"
+#include <string>
 
 namespace mlask{
 
 /** @brief Class representing Leaky Relu activation function*/
-class LeakyRelu : ActivationFunction{
+class LeakyRelu : public ActivationFunction{
     float_t a_;
     vectorIn input_;
     float_t activate(float_t input)override;
@@ -22,7 +23,7 @@ public:
      * @param output Name of the output tensor
      * @return True if the conversion was successful, false otherwise */
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
-    std::string str() const override{ return "Leaky Relu"; }
+    std::string str() const override{ return "Leaky Relu with a=" + std::to_string(a_); }
 };
 
 }

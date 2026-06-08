@@ -31,16 +31,9 @@ int main(){
         for(int x = 0;x<=SIZE;x++){
             model.backprop<DerivedMeanSquared>(vectorIn{{(x-(SIZE/2.f))/(SIZE/2.f)}}, vectorOut{{Y[x]}});
         }
-        model.fit(learning_rate);
+        model.fit_layers(learning_rate);
     }
    
-    vectorIn input(SIZE+1);
-    vectorOut expected(SIZE+1);
-    for(int x = 0;x<=SIZE;x++){
-        input(x) =  (x-(SIZE/2.f))/(SIZE/2.f);
-        expected(x) =  w * x + b;
-    }
-
-    std::cout<<"Error: "<< model.whole_error<MeanSquared>(input, expected) << std::endl;
     model.exportToONNX("onnx_format.onnx", "One Neuron Neural Network");
+    std::cout<<model.str();
 }

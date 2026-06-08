@@ -44,10 +44,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_library(mlask STATIC
     src/Model.cpp
-    src/activation_functions/Relu.cpp
     src/LambdaActivationFunction.cpp
     src/ActivationFunction.cpp
+    src/ConfusionMatrix.cpp
 )
+add_subdirectory(src/activation_functions)
 target_compile_features(mlask PRIVATE cxx_std_23)
 target_link_libraries(mlask PUBLIC Eigen3::Eigen
     onnx

@@ -1,6 +1,7 @@
 #include "Model.hpp"
 #include "LambdaActivationFunction.hpp"
 #include "ProgressBar.hpp"
+#include "exceptions.hpp"
 #include "onnx/onnx_pb.h"
 #include <fstream>
 #include <string>
@@ -17,12 +18,10 @@ Model::Model(std::size_t in, std::size_t out, std::size_t size, std::size_t epoc
 void Model::addLayer(std::unique_ptr<Layer> layer) {
     std::size_t out = lastOut();
     if(layer->getIn() != out && layer->getIn()!=0){
-        ERR("Input size of the layer does not match the output size of the previous layer");
         throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size()); 
     }
     else{
         layers_.push_back(std::move(layer));
-        LOG("Added Layer");
     }
 }
 
@@ -33,20 +32,18 @@ vectorOut Model::forward(vectorIn input) const {
     return input;
 }
 
-void Model::fit(float_t learning_rate){
+void Model::fit_layers(float_t learning_rate){
     epoch_++;
     for (const std::unique_ptr<Layer> &layer : layers_) {
         layer->fit(learning_rate);
     }
     if(log_){
         ProgressBar::draw((float)epoch_ / (float)epochs_);
-        std::cout<<str()<<std::endl;
     }
 }
 
 void Model::addLambdaActivationFunction( actfunc func, actfunc derv){
     layers_.push_back(std::make_unique<LambdaActivationFunction>(func, derv, lastOut()));
-    LOG("Added Activation Function");
 }
 
 void Model::convertToONNX(onnx::ModelProto& model, std::string name) const{
@@ -69,7 +66,6 @@ void Model::convertToONNX(onnx::ModelProto& model, std::string name) const{
             output = "hidden_" + std::to_string(index);
         }
         if(!layer->tryConvertToONNX(graph, input, output)){
-            ERR("Failed to convert a layer at position " + index + " to ONNX format.")
             throw ExportError("Failed to convert a layer to ONNX", index);
         }
         input = output;
@@ -98,10 +94,8 @@ void Model::exportToONNX(std::filesystem::path path, std::string name)const{
     convertToONNX(model, name);
     std::fstream output(path, std::ios::out | std::ios::trunc | std::ios::binary);
     if (!model.SerializeToOstream(&output)) {
-        ERR("Failed to write ONNX file to disk");
         throw ExportError("Failed to write ONNX file to disk", layers_.size());
     }
-    LOG("Succesfully written ONNX file to disk");
 }
 
 std::string Model::str()const{
@@ -111,5 +105,19 @@ std::string Model::str()const{
         model_cstr += layer->str();
     }
     return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
+}
+ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t>& expected)const{
+    if (input.size() != expected.size())
+        throw std::invalid_argument("input has different dimension then expected, can't evaluate the model");
+    if(out_ != 1) throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
+    ConfusionMatrix conf;
+
+    for(std::size_t x = 0; x< input.size(); x++){
+        vectorOut result = forward(Eigen::Map<const Eigen::VectorXf>(input[x].data(), input[x].size()));
+        if(result.rows() != 1)  throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
+        conf.evaluate(std::round(result(0)), expected[x]); 
+    }
+
+    return conf;
 }
 } // namespace mlask

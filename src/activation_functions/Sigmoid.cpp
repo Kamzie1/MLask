@@ -8,7 +8,13 @@ Sigmoid::Sigmoid(std::size_t in){
 }
 
 float_t Sigmoid::activate(float_t input){
-   return 1/(1 + exp(-input));
+    if (input >= 0.0f) {
+        return 1.0f / (1.0f + std::exp(-input));
+    } 
+    else {
+        float_t z = std::exp(input);
+        return z / (1.0f + z);
+    }
 }
 
 float_t Sigmoid::derived(float_t input){

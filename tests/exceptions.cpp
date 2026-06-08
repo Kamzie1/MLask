@@ -23,10 +23,7 @@ int main(){
     try{
         model.exportToONNX("error");
     }catch(ExportError& e){
-        ERR(e.what());
-        LOG("Chose ExportError");
     }
     catch(ArchitectureError& e){
-        ERR(e.what());
     }
 }

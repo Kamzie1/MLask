@@ -9,7 +9,7 @@ Tanh::Tanh(std::size_t in){
 }
 
 float_t Tanh::activate(float_t input){
-   return (exp(input) - exp(-input))/(exp(input) + exp(-input));
+   return (float_t)(exp(input) - exp(-input))/(exp(input) + exp(-input));
 }
 
 float_t Tanh::derived(float_t input){
