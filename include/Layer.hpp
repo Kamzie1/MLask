@@ -12,8 +12,8 @@ protected:
     std::size_t in_;
     std::size_t out_;
   public:
-    std::size_t getIn()const{ return in_; }
-    std::size_t getOut()const{ return out_; }
+    std::size_t getIn()const noexcept{ return in_; }
+    std::size_t getOut()const noexcept{ return out_; }
 
     virtual ~Layer() = default;
     /** @brief Defines a way to move forward in a neural network */
@@ -25,7 +25,7 @@ protected:
     /** @brief Converts the layer to ONNX format. If the layer cannot be converted, it should return false. */
     virtual bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output)const { return false; }
     /** @brief Returns a string representation of the layer. */
-    virtual std::string str()const{ return "Layer"; }
+    [[nodiscard]] virtual std::string str()const{ return "Layer"; }
 };
 
 /** @brief concept ensuring a class derives from Layer*/

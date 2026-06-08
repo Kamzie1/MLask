@@ -25,13 +25,13 @@ private:
     std::size_t epochs_;
     float_t gradient_clamp_;
 public:
-    EIGEN_MAKE_ALIGNED_OPERATOR_NEW 
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     /** @brief A constructor for fully connected layer, initializes weights and biases with random values, and changes with zeros
      * @param gradient_clamp a restriction for gradient size, default 100
      */
     FullyConnectedLayer(float_t gradient_clamp=100):gradient_clamp_(gradient_clamp){
         float_t limit = std::sqrt(6.0f / (in + out));
-    
+
         weights_.setRandom();
         weights_ /= 10;
         weights_ *= limit;
@@ -59,10 +59,10 @@ public:
     bool tryConvertToONNX(onnx::GraphProto* graph, std::string input, std::string output) const override;
 
     /* @brief Returns a string representation of the layer */
-    std::string str() const override;
+    [[nodiscard]] std::string str() const override;
     /* getters */
-    Eigen::Matrix<float_t, out, in> weights(){ return weights_; }
-    Eigen::Matrix<float_t, out, 1> bias(){ return bias_; }
+    Eigen::Matrix<float_t, out, in> weights()const noexcept{ return weights_; }
+    Eigen::Matrix<float_t, out, 1> bias()const noexcept{ return bias_; }
 };
 
 template <std::size_t in, std::size_t out>
@@ -85,7 +85,7 @@ vectorIn  FullyConnectedLayer<in, out>::backward(vectorOut error){
 template <std::size_t in, std::size_t out>
 void FullyConnectedLayer<in, out>::fit(float_t learning_rate){
     if (epochs_ == 0) {
-        return; 
+        return;
     }
 
     weights_ = weights_ - (weightsChange_ / (float_t)epochs_ * learning_rate);

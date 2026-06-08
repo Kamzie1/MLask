@@ -1,4 +1,5 @@
 #include "Model.hpp"
+#include "ConfusionMatrix.hpp"
 #include "LambdaActivationFunction.hpp"
 #include "ProgressBar.hpp"
 #include "exceptions.hpp"
@@ -18,7 +19,7 @@ Model::Model(std::size_t in, std::size_t out, std::size_t size, std::size_t epoc
 void Model::addLayer(std::unique_ptr<Layer> layer) {
     std::size_t out = lastOut();
     if(layer->getIn() != out && layer->getIn()!=0){
-        throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size()); 
+        throw ArchitectureError("Input size of the layer does not match the output size of the previous layer", layers_.size());
     }
     else{
         layers_.push_back(std::move(layer));
@@ -106,7 +107,7 @@ std::string Model::str()const{
     }
     return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
 }
-ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t>& expected, float_t (interpret) (float_t))const{
+ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t>& expected, labeling_function interpret)const{
     if (input.size() != expected.size())
         throw std::invalid_argument("input has different dimension then expected, can't evaluate the model");
     if(out_ != 1) throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
@@ -115,7 +116,7 @@ ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t
     for(std::size_t x = 0; x< input.size(); x++){
         vectorOut result = forward(Eigen::Map<const Eigen::VectorXf>(input[x].data(), input[x].size()));
         if(result.rows() != 1)  throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
-        conf.evaluate(interpret(result(0)), expected[x]); 
+        conf.evaluate(interpret(result(0)), expected[x]);
     }
 
     return conf;

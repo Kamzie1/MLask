@@ -4,6 +4,7 @@
 #include "Model.hpp"
 #include "BinaryCrossEntropy.hpp"
 #include "Sigmoid.hpp"
+#include "labeling_functions.hpp"
 #include <cstdlib>
 #include <vector>
 #include <fstream>
@@ -37,12 +38,8 @@ void load_data(std::vector<std::vector<float_t>>& data){
     }
 }
 
-float_t interpret(float_t x){
-    return (x>=0) ? 1 : 0;
-}
-
 int main(){
-    const int epochs = 1000;
+    const int epochs = 10000;
     Model model(4,1,5, epochs, true);
     model.addLayer<FullyConnectedLayer<4,16>>();
     model.addLayer<Relu>();
@@ -54,7 +51,7 @@ int main(){
 
     load_data(data);
 
-    std::random_device rd; 
+    std::random_device rd;
     std::mt19937 g(rd());
 
     std::shuffle(data.begin(), data.end(), g);
@@ -74,10 +71,9 @@ int main(){
     }
 
     model.fit<DerivedBinaryCrossEntropy>(train, trainY, epochs,  0.01f);
-    ConfusionMatrix conf = model.evaluate(test, testY, interpret);
+    ConfusionMatrix conf = model.evaluate(test, testY, post_process_sign);
 
 
     model.exportToONNX("iris_model.onnx", "iris");
     std::cout<<conf<<std::endl;
 }
-

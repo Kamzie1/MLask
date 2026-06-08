@@ -26,6 +26,6 @@ public:
     /** @brief Describes how the layer 'learns', meaning it defines how layer updates itself. */
     void fit(float_t learning_rate)override{};
     /** @brief Returns a string representation of the layer. */
-    std::string str()const override{ return "Activation Function"; }
+    [[nodiscard]] std::string str()const override{ return "Activation Function"; }
 };
 }

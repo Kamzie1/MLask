@@ -86,7 +86,7 @@ class Model {
      * @param input The input vector for the model
      * @return The output vector for the given input
      */
-    vectorOut forward(vectorIn input) const;
+    [[nodiscard]] vectorOut forward(vectorIn input) const;
 
     /**
      * @brief performs learning loop
@@ -116,7 +116,7 @@ class Model {
      * @param interpret function that interprets the result e.g. rounds to 1 or 0
      * @return ConfusionMatrix of the model
      */
-    ConfusionMatrix evaluate(const matrixIn& input, const std::vector<float_t>& expected, float_t (interpret)(float_t))const;
+    [[nodiscard]] ConfusionMatrix evaluate(const matrixIn& input, const std::vector<float_t>& expected, labeling_function interpret)const;
 
     /**
      * @brief gets the layer at a given index
