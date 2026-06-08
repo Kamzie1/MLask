@@ -106,7 +106,7 @@ std::string Model::str()const{
     }
     return "Model with " + std::to_string(layers_.size()) + " layers:" + model_cstr;
 }
-ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t>& expected)const{
+ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t>& expected, float_t (interpret) (float_t))const{
     if (input.size() != expected.size())
         throw std::invalid_argument("input has different dimension then expected, can't evaluate the model");
     if(out_ != 1) throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
@@ -115,7 +115,7 @@ ConfusionMatrix Model::evaluate(const matrixIn& input, const std::vector<float_t
     for(std::size_t x = 0; x< input.size(); x++){
         vectorOut result = forward(Eigen::Map<const Eigen::VectorXf>(input[x].data(), input[x].size()));
         if(result.rows() != 1)  throw ArchitectureError("Can't create confusion matrix for models that do not classify", -1);
-        conf.evaluate(std::round(result(0)), expected[x]); 
+        conf.evaluate(interpret(result(0)), expected[x]); 
     }
 
     return conf;

@@ -113,9 +113,10 @@ class Model {
     /** Returns a confusion matrix of the model based on give test dataset
      * @param input test input
      * @param expected test expected label
+     * @param interpret function that interprets the result e.g. rounds to 1 or 0
      * @return ConfusionMatrix of the model
      */
-    ConfusionMatrix evaluate(const matrixIn& input, const std::vector<float_t>& expected)const;
+    ConfusionMatrix evaluate(const matrixIn& input, const std::vector<float_t>& expected, float_t (interpret)(float_t))const;
 
     /**
      * @brief gets the layer at a given index

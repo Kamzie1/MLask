@@ -27,7 +27,7 @@ void load_data(std::vector<std::vector<float_t>>& data){
 
         for (int i = 0; i < 4; ++i) {
             std::getline(ss, token, ',');
-            row_features.push_back(std::stof(token) / 10.0f);
+            row_features.push_back(std::stof(token) / 5.0f - 1);
         }
         std::getline(ss, token, ',');
         if (token == "Iris-setosa"){ row_features.push_back(1);}
@@ -37,13 +37,17 @@ void load_data(std::vector<std::vector<float_t>>& data){
     }
 }
 
+float_t interpret(float_t x){
+    return (x>=0) ? 1 : 0;
+}
+
 int main(){
-    const int epochs = 10000;
+    const int epochs = 1000;
     Model model(4,1,5, epochs, true);
     model.addLayer<FullyConnectedLayer<4,16>>();
-    model.addLayer<Sigmoid>();
+    model.addLayer<Relu>();
     model.addLayer<FullyConnectedLayer<16,8>>();
-    model.addLayer<Sigmoid>();
+    model.addLayer<Relu>();
     model.addLayer<FullyConnectedLayer<8,1>>();
 
     std::vector<std::vector<float_t>> data;
@@ -69,8 +73,8 @@ int main(){
         row.pop_back();
     }
 
-    model.fit<DerivedBinaryCrossEntropy>(train, trainY, epochs,  0.005f);
-    ConfusionMatrix conf = model.evaluate(test, testY);
+    model.fit<DerivedBinaryCrossEntropy>(train, trainY, epochs,  0.01f);
+    ConfusionMatrix conf = model.evaluate(test, testY, interpret);
 
 
     model.exportToONNX("iris_model.onnx", "iris");

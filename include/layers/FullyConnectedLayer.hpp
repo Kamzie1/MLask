@@ -33,6 +33,7 @@ public:
         float_t limit = std::sqrt(6.0f / (in + out));
     
         weights_.setRandom();
+        weights_ /= 10;
         weights_ *= limit;
 
         bias_.setZero();
